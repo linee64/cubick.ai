@@ -7,8 +7,6 @@ import { Send, Bot, User, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { callGemini } from "@/integrations/gemini";
 import { useI18n } from "@/lib/i18n";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 type Message = {
   role: "user" | "assistant";
@@ -156,21 +154,7 @@ export function AICoach() {
                       : "bg-muted"
                   }`}
                 >
-                  {message.role === "assistant" ? (
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        a: (props) => (
-                          <a {...props} target="_blank" rel="noopener noreferrer" />
-                        ),
-                      }}
-                      className="text-sm leading-relaxed"
-                    >
-                      {message.content}
-                    </ReactMarkdown>
-                  ) : (
-                    <p className="whitespace-pre-wrap text-sm">{message.content}</p>
-                  )}
+                  <p className="whitespace-pre-wrap text-sm">{message.content}</p>
                 </div>
                 
                 {message.role === "user" && (
