@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,7 +50,7 @@ export function AICoach() {
 
     if (!isSpeedcubingRelated(input)) {
       toast({
-        title: t("Тема вне спидкубинга"),
+        title: t("🚫 Тема вне спидкубинга"),
         description: t("Я отвечаю только по вопросам спидкубинга. Переформулируйте запрос."),
         variant: "warning",
       });
@@ -108,8 +110,8 @@ export function AICoach() {
 
       if (isAbort || isNetwork) {
         toast({
-          title: t("Ошибка"),
-          description: isAbort ? t("Истек таймаут запроса") : t("Сетевая ошибка"),
+          title: t("⚠️ Ошибка"),
+          description: isAbort ? t("⏱️ Истек таймаут запроса") : t("🌐 Сетевая ошибка"),
           variant: "warning",
         });
         setMessages((prev) => {
@@ -126,7 +128,7 @@ export function AICoach() {
           /Supabase Edge недоступен/i.test(error.message))
       ) {
         toast({
-          title: t("Сервер недоступен"),
+          title: t("🛠️ Сервер недоступен"),
           description:
             `${t("Проверьте, что Edge Function 'ai-coach' развернута в Supabase.")} ${t("Проверьте 'VITE_SUPABASE_PUBLISHABLE_KEY' и домен функций.")}`,
           variant: "destructive",
@@ -139,7 +141,7 @@ export function AICoach() {
       }
 
       toast({
-        title: t("Ошибка"),
+        title: t("⚠️ Ошибка"),
         description:
           error instanceof Error
             ? error.message
@@ -207,11 +209,41 @@ export function AICoach() {
                   }`}
                 >
                   {message.role === "assistant" ? (
-                    <p className="whitespace-pre-wrap text-sm md:text-base leading-tight break-words">
-                      {message.content}
-                    </p>
+                    <div className="prose prose-sm md:prose-base max-w-none text-foreground">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => (
+                            <p className="mb-3 leading-relaxed whitespace-pre-wrap break-words">{children}</p>
+                          ),
+                          strong: ({ children }) => (
+                            <span className="font-medium">{children}</span>
+                          ),
+                          ul: ({ children }) => (
+                            <ul className="list-disc pl-5 space-y-2">{children}</ul>
+                          ),
+                          ol: ({ children }) => (
+                            <ol className="list-decimal pl-5 space-y-2">{children}</ol>
+                          ),
+                          li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                          a: ({ href, children }) => (
+                            <a href={href as string} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                              {children}
+                            </a>
+                          ),
+                          code: ({ children }) => (
+                            <code className="rounded bg-muted px-1 py-0.5 text-sm">{children}</code>
+                          ),
+                          pre: ({ children }) => (
+                            <pre className="rounded bg-muted p-3 overflow-auto text-sm">{children}</pre>
+                          ),
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
                   ) : (
-                    <p className="whitespace-pre-wrap text-sm md:text-base leading-tight">{message.content}</p>
+                    <p className="whitespace-pre-wrap text-sm md:text-base leading-relaxed break-words">{message.content}</p>
                   )}
                 </div>
                 
