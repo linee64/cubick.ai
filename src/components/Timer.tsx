@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, Save } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
@@ -6,7 +7,11 @@ import { useAuth } from "@/hooks/use-auth";
 import { addSolveForUser } from "@/lib/stats";
 import { useI18n } from "@/lib/i18n";
 
-const Timer = () => {
+type TimerProps = {
+  variant?: "default" | "fullscreen";
+};
+
+const Timer = ({ variant = "default" }: TimerProps) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -24,6 +29,31 @@ const Timer = () => {
     }
     return () => clearInterval(interval);
   }, [isRunning]);
+
+  // Pointer/touch controls: hold to get ready, release to start; tap to stop
+  const handlePointerDown = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary) return;
+    if (!isRunning) {
+      setIsReady(true);
+    } else {
+      setIsRunning(false);
+    }
+  }, [isRunning]);
+
+  const handlePointerUp = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary) return;
+    if (isReady) {
+      setIsReady(false);
+      setIsRunning(true);
+    }
+  }, [isReady]);
+
+  const handlePointerCancel = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary) return;
+    if (isReady) {
+      setIsReady(false);
+    }
+  }, [isReady]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const active = document.activeElement as HTMLElement | null;
@@ -103,29 +133,43 @@ const Timer = () => {
     }
   };
 
+  const sizeClass =
+    variant === "fullscreen"
+      ? "text-6xl sm:text-7xl md:text-[10rem] lg:text-[12rem]"
+      : "text-5xl sm:text-6xl md:text-8xl";
+
+  const containerGapClass = variant === "fullscreen" ? "gap-10" : "gap-6";
+  const digitsTopMarginClass = variant === "fullscreen" ? "mt-6 sm:mt-8" : "";
+  const buttonsMarginClass = variant === "fullscreen" ? "mt-6 sm:mt-10" : "";
+
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className={`flex flex-col items-center ${containerGapClass}`}>
       <div 
-        className={`text-7xl md:text-8xl font-bold font-mono transition-all duration-200 ${
+        className={`${sizeClass} ${digitsTopMarginClass} font-bold font-mono transition-all duration-200 ${
           isReady ? "text-accent scale-110" : "text-foreground"
         } ${isRunning ? "animate-pulse" : ""} ${pulse ? "pulse-once" : ""}`}
         style={{
           textShadow: isRunning ? "var(--timer-glow)" : "none",
+          touchAction: "manipulation",
+          userSelect: "none",
         }}
         onAnimationEnd={() => setPulse(false)}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
       >
         {formatTime(time)}
       </div>
       
       <p className="text-sm text-muted-foreground">
         {isReady 
-          ? t("Отпустите пробел для старта") 
+          ? t("Отпустите экран для старта") 
           : isRunning 
-          ? t("Нажмите пробел для остановки") 
-          : t("Зажмите пробел для начала")}
+          ? t("Нажмите на таймер для остановки") 
+          : t("Зажмите экран для начала")}
       </p>
 
-      <div className="flex gap-3">
+      <div className={`flex gap-3 ${buttonsMarginClass}`}>
         <Button
           variant="outline"
           size="lg"

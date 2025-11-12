@@ -4,7 +4,11 @@ import { Card } from "@/components/ui/card";
 import { RefreshCw } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const Scramble = () => {
+type ScrambleProps = {
+  variant?: "default" | "buttonOnly" | "noTitle";
+};
+
+const Scramble = ({ variant = "default" }: ScrambleProps) => {
   const moves = ["R", "L", "U", "D", "F", "B"];
   const modifiers = ["", "'", "2"];
 
@@ -29,6 +33,43 @@ const Scramble = () => {
 
   const [scramble, setScramble] = useState(generateScramble());
   const { t } = useI18n();
+
+  if (variant === "buttonOnly") {
+    return (
+      <div className="w-full flex items-center justify-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setScramble(generateScramble())}
+          className="interactive-button"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" />
+          {t("Новый")}
+        </Button>
+      </div>
+    );
+  }
+
+  if (variant === "noTitle") {
+    return (
+      <Card className="p-4 bg-gradient-to-br from-card to-muted/30 shadow-lg">
+        <div className="flex items-center justify-end mb-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setScramble(generateScramble())}
+            className="interactive-button"
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            {t("Новый")}
+          </Button>
+        </div>
+        <p className="text-base sm:text-lg font-mono text-center py-2 tracking-wider break-words">
+          {scramble}
+        </p>
+      </Card>
+    );
+  }
 
   return (
     <Card className="p-6 bg-gradient-to-br from-card to-muted/30 shadow-lg">

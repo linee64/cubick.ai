@@ -1,6 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -114,8 +112,10 @@ export function AICoach() {
           description: isAbort ? t("Истек таймаут запроса") : t("Сетевая ошибка"),
           variant: "warning",
         });
-        // Откат пользовательского сообщения
-        setMessages((prev) => prev.filter((m) => m !== userMessage));
+        setMessages((prev) => {
+          const keep = prev.filter((m) => m !== userMessage);
+          return [...keep, { role: "assistant", content: t("Не удалось получить ответ от AI") }];
+        });
         return;
       }
 
@@ -131,7 +131,10 @@ export function AICoach() {
             `${t("Проверьте, что Edge Function 'ai-coach' развернута в Supabase.")} ${t("Проверьте 'VITE_SUPABASE_PUBLISHABLE_KEY' и домен функций.")}`,
           variant: "destructive",
         });
-        setMessages((prev) => prev.filter((m) => m !== userMessage));
+        setMessages((prev) => {
+          const keep = prev.filter((m) => m !== userMessage);
+          return [...keep, { role: "assistant", content: t("Не удалось получить ответ от AI") }];
+        });
         return;
       }
 
@@ -147,12 +150,14 @@ export function AICoach() {
         message: error instanceof Error ? error.message : String(error),
       });
 
-      // В остальных случаях — откат последнего сообщения
-      setMessages((prev) => prev.filter((m) => m !== userMessage));
+      setMessages((prev) => {
+        const keep = prev.filter((m) => m !== userMessage);
+        return [...keep, { role: "assistant", content: t("Не удалось получить ответ от AI") }];
+      });
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -202,24 +207,9 @@ export function AICoach() {
                   }`}
                 >
                   {message.role === "assistant" ? (
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      className="text-sm md:text-base leading-tight break-words markdown-compact"
-                      components={{
-                        a: ({ href, children }) => (
-                          <a href={href as string} target="_blank" rel="noopener noreferrer" className="underline">
-                            {children}
-                          </a>
-                        ),
-                        code: ({ inline, children }) => (
-                          <code className={inline ? "px-1 py-0.5 rounded bg-black/5 text-xs md:text-sm" : "block p-2 rounded bg-black/5 overflow-x-auto text-xs md:text-sm"}>
-                            {children}
-                          </code>
-                        ),
-                      }}
-                    >
+                    <p className="whitespace-pre-wrap text-sm md:text-base leading-tight break-words">
                       {message.content}
-                    </ReactMarkdown>
+                    </p>
                   ) : (
                     <p className="whitespace-pre-wrap text-sm md:text-base leading-tight">{message.content}</p>
                   )}
@@ -250,7 +240,7 @@ export function AICoach() {
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             placeholder={t("Напиши свой вопрос...")}
             className="resize-none"
             rows={2}

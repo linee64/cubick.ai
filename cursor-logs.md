@@ -1,5 +1,40 @@
 # Cursor Log
 
+## 2025-11-12 — Полноэкранный таймер и мобильные жесты
+- Timer (моб.): уменьшен размер шрифта (`text-5xl sm:text-6xl md:text-8xl`) и добавлены pointer‑жесты (удержание для старта, повторный тап для остановки). Обновлены подсказки: «Зажмите экран для начала», «Отпустите экран для старта», «Нажмите на таймер для остановки».
+- Страница `TimerFullscreen`: создан файл `src/pages/TimerFullscreen.tsx` с чистой раскладкой на весь экран (только `Scramble` и `Timer`), добавлена компактная кнопка «Назад» (левый верх).
+- Маршрут: зарегистрирован `/timer` в `src/App.tsx`.
+- Главная: добавлена кнопка «На весь экран» в блоке таймера (`src/pages/Index.tsx`), ведущая на `/timer`.
+- Предпросмотр: запущу dev‑сервер и проверю навигацию и поведение жестов на телефоне.
+
+### 2025-11-12 — Уточнения по кнопке и раскладке fullscreen
+- Главная: кнопку «На весь экран» переместил выше карточки таймера (правый край, отдельный блок).
+- Fullscreen: таймер строго по центру экрана; скрэмбл перенесён вверх и уменьшен (обёртка `max-w-md` + `scale-90 sm:scale-95`). Кнопки не увеличивались.
+
+### 2025-11-12 — Огромные цифры по центру, скрэмбл снизу
+- Компонент `Timer`: добавлен проп `variant` с режимом `fullscreen`, который задаёт очень крупные цифры (`text-7xl sm:text-8xl md:text-[12rem] lg:text-[14rem]`). Жесты и кнопки без изменений.
+- Страница `TimerFullscreen`: таймер остаётся по центру и используется как `<Timer variant="fullscreen" />`; скрэмбл перемещён под таймер и уменьшен (`max-w-md` + `scale-90 sm:scale-95`).
+- Предпросмотр: открыть `http://localhost:8081/` и проверить, что по центру огромные цифры, ниже — кнопки «Заново»/«Сохранить», ещё ниже — компактный скрэмбл.
+
+### 2025-11-12 — Fullscreen: скрыт текст скрэмбла, оставлена кнопка «Новый»
+- Компонент `Scramble`: добавлен проп `variant="buttonOnly"`, который скрывает заголовок и текст скрэмбла, оставляя только кнопку «Новый».
+- Страница `TimerFullscreen`: внизу страницы используется `<Scramble variant="buttonOnly" />` — под таймером видна только компактная кнопка «Новый».
+
+### 2025-11-12 — Fullscreen: вернуть текст скрэмбла без заголовка, опустить кнопки
+- Компонент `Scramble`: добавлен проп `variant="noTitle"`, скрывающий заголовок «Скрэмбл», при этом текст скрэмбла остаётся видимым; кнопка «Новый» сохранена (компактная верстка).
+- Страница `TimerFullscreen`: теперь использует `<Scramble variant="noTitle" />` и расширенный контейнер (`w-[92vw] max-w-5xl`) для лучшей читаемости шириной.
+- Компонент `Timer` (вариант `fullscreen`): увеличен общий вертикальный зазор (`gap-10`), добавлен небольшой верхний отступ у цифр (`mt-2 sm:mt-4`) и дополнительные отступы сверху у блока кнопок (`mt-6 sm:mt-10`), чтобы кнопки были заметно ниже.
+
+### 2025-11-12 — Fullscreen: больше верхний отступ и немного меньшие цифры
+- Компонент `Timer` (fullscreen): цифры уменьшены с `text-7xl sm:text-8xl md:text-[12rem] lg:text-[14rem]` до `text-6xl sm:text-7xl md:text-[10rem] lg:text-[12rem]`.
+- Верхний отступ цифр увеличен с `mt-2 sm:mt-4` до `mt-6 sm:mt-8`, чтобы таймер отступал сильнее сверху.
+- Кнопки и общий зазор контейнера оставлены без изменений.
+
+### 2025-11-12 — Навигация «На весь экран» ведёт на /timer
+- На главной странице (`src/pages/Index.tsx`) кнопка «На весь экран» ведёт на маршрут `/timer`.
+- В роутере (`src/App.tsx`) маршрут зарегистрирован: `<Route path="/timer" element={<TimerFullscreen />} />`.
+- На странице `TimerFullscreen` есть кнопка «Назад», возвращающая на главную (`/`).
+
 ## 2025-11-11 — Мобильные улучшения (iPhone 12 Pro)
 - Header: компактная высота и паддинги на мобильных, сокращён бренд‑текст; кнопки авторизации свёрнуты в иконки.
 - AICoach: компактный Markdown на мобильных (`markdown-compact`), меньшие шрифты, перенос длинных слов; код‑блоки `text-xs` на мобильных.
@@ -476,3 +511,22 @@
 - Проверено, что в `index.html` уже установлен `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">` и добавлены iOS PWA мета-теги.
 
 Ожидание визуальной проверки на локальном сервере: удостовериться, что на iPhone 12 Pro корректны высота экранов, плавность прокрутки, и панель ввода в чате не перекрывается домашней панелью.
+### 2025-11-12 — Фикс сброса темы при перезагрузке
+- Причина: страница `TimerFullscreen` не содержит `Header`, поэтому `ThemeToggle` не инициализировал тему на маунте, и после reload дизайн откатывался к дефолту.
+- Исправление: ранняя инициализация темы до маунта React.
+  - `src/main.tsx`: применяем `data-theme` и класс `dark` из `localStorage` (fallback: `blue` + `prefers-color-scheme`).
+  - `index.html`: добавлен inline‑скрипт в `<head>` для pre‑hydration установки темы, чтобы избежать мигания.
+- Проверка: после перезагрузки на `/` и `/timer` выбранная тема и режим сохраняются без визуального сброса.
+2025-11-12: Fix AI Coach crash on prompt submit
+
+- Added `src/components/ErrorBoundary.tsx` and wrapped App contents to capture render errors and show a fallback instead of a blank page.
+- Updated `src/components/AICoach.tsx` to use `onKeyDown` for Enter handling and to inject a safe assistant error message on failures, avoiding empty UI states.
+- Hardened `src/components/ui/sonner.tsx` to derive theme from `document.documentElement` instead of `next-themes`, removing dependency that could throw without a provider.
+- Verified Supabase Edge function (`supabase/functions/ai-coach/index.ts`) stays unchanged; client now surfaces errors gracefully.
+- Purpose: prevent full-page blank screen and ensure predictable UI behavior when AI request fails or misconfigurations occur.
+2025-11-12: Remove Markdown rendering from AI Coach
+
+- AICoach: replaced ReactMarkdown with plain text rendering; removed remark-gfm import.
+- Client prompt (src/integrations/gemini.ts): updated system prompt to forbid Markdown; require plain text only.
+- Edge Function (supabase/ai-coach/index.ts): aligned system prompt to forbid Markdown and enforce plain text responses.
+- Goal: ensure AI replies display as simple text without headings/lists/code blocks; preserve line breaks.

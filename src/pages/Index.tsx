@@ -45,6 +45,14 @@ const Index = () => {
           </div>
 
           {/* Timer Section */}
+          {/* Fullscreen button slightly above the timer card */}
+          <div className="container mx-auto max-w-4xl">
+            <div className="flex justify-end mb-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/timer">{t("На весь экран")}</Link>
+              </Button>
+            </div>
+          </div>
           <div className="container mx-auto max-w-4xl mb-8 md:mb-12">
             <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2">
               <div className="mb-8">
