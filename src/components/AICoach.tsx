@@ -21,6 +21,7 @@ export function AICoach() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [lastSentAt, setLastSentAt] = useState<number>(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { t } = useI18n();
@@ -48,6 +49,19 @@ export function AICoach() {
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
+    const now = Date.now();
+    const minIntervalMs = 8000;
+    const diff = now - lastSentAt;
+    if (diff < minIntervalMs) {
+      const waitSec = Math.ceil((minIntervalMs - diff) / 1000);
+      toast({
+        title: t("⏳ Слишком часто"),
+        description: t(`Подождите ${waitSec} сек перед следующим запросом`),
+        variant: "warning",
+      });
+      return;
+    }
+
     if (!isSpeedcubingRelated(input)) {
       toast({
         title: t("🚫 Тема вне спидкубинга"),
@@ -62,6 +76,7 @@ export function AICoach() {
     trackEvent("ai_message_sent", { length: input.length });
     setInput("");
     setIsLoading(true);
+    setLastSentAt(Date.now());
 
     let assistantContent = "";
     
@@ -84,7 +99,6 @@ export function AICoach() {
 
       let reply = "";
 
-      // 1) Пытаемся через Supabase Edge Function (устойчивее к блокировкам googleapis)
       try {
         reply = await callAiCoachEdge([...messages, userMessage], controller.signal);
       } catch (edgeErr) {
@@ -107,6 +121,7 @@ export function AICoach() {
 
       const isAbort = error instanceof Error && error.name === "AbortError";
       const isNetwork = error instanceof TypeError || (error instanceof Error && /failed to fetch/i.test(error.message));
+      const isRateLimit = error instanceof Error && /429/.test(error.message);
 
       if (isAbort || isNetwork) {
         toast({
@@ -117,6 +132,19 @@ export function AICoach() {
         setMessages((prev) => {
           const keep = prev.filter((m) => m !== userMessage);
           return [...keep, { role: "assistant", content: t("Не удалось получить ответ от AI") }];
+        });
+        return;
+      }
+
+      if (isRateLimit) {
+        toast({
+          title: t("🚦 Лимит запросов"),
+          description: t("Сервис перегружен. Попробуйте снова через 10–30 сек"),
+          variant: "warning",
+        });
+        setMessages((prev) => {
+          const keep = prev.filter((m) => m !== userMessage);
+          return [...keep, { role: "assistant", content: t("Слишком много запросов, попробуйте позже") }];
         });
         return;
       }

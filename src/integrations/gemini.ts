@@ -27,31 +27,47 @@ export async function callGemini(
 ): Promise<string> {
   if (!apiKey) throw new Error("VITE_GEMINI_API_KEY отсутствует");
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-  const response = await fetch(url, {
+  const primaryUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const payload = { contents: toGeminiContents(messages) };
+
+  const resPrimary = await fetch(primaryUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contents: toGeminiContents(messages) }),
+    body: JSON.stringify(payload),
     signal,
   });
 
-  if (!response.ok) {
-    const text = await response.text();
-    if (response.status === 429) {
-      throw new Error("Превышен лимит запросов к Gemini (429)");
+  if (!resPrimary.ok) {
+    const txt = await resPrimary.text();
+    if (resPrimary.status === 429) {
+      const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const resFallback = await fetch(fallbackUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal,
+      });
+      if (!resFallback.ok) {
+        const ft = await resFallback.text();
+        throw new Error(`Превышен лимит запросов (429), фоллбэк не удался: ${ft}`);
+      }
+      const dataFb = await resFallback.json();
+      const partsFb = dataFb?.candidates?.[0]?.content?.parts ?? [];
+      const textFb = partsFb
+        .map((p: Record<string, unknown>) => (typeof p?.text === "string" ? (p.text as string) : ""))
+        .join("");
+      return textFb || "";
     }
-    if (response.status === 401 || response.status === 403) {
+    if (resPrimary.status === 401 || resPrimary.status === 403) {
       throw new Error("Нет доступа к Gemini API ключу (401/403)");
     }
-    throw new Error(`Ошибка Gemini (${response.status}): ${text}`);
+    throw new Error(`Ошибка Gemini (${resPrimary.status}): ${txt}`);
   }
 
-  const data = await response.json();
+  const data = await resPrimary.json();
   const parts = data?.candidates?.[0]?.content?.parts ?? [];
   const text = parts
-    .map((p: Record<string, unknown>) =>
-      typeof p?.text === "string" ? (p.text as string) : ""
-    )
+    .map((p: Record<string, unknown>) => (typeof p?.text === "string" ? (p.text as string) : ""))
     .join("");
   return text || "";
 }
