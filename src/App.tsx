@@ -1,4 +1,5 @@
-import { Analytics } from "@vercel/analytics/react"
+// В Vite/React используем событийный трекинг через @vercel/analytics (va),
+// компонент Analytics для Next.js не подключаем, чтобы избежать ошибок хуков.
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -63,7 +64,6 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-        <Analytics />
       </TooltipProvider>
     </QueryClientProvider>
     </I18nProvider>

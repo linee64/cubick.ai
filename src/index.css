@@ -346,6 +346,81 @@ All colors MUST be HSL.
   }
 }
 
+/* iOS/iPhone safe-area и мобильные утилиты */
+@layer utilities {
+  /* Верхний safe-area отступ (например, вокруг выреза экрана) */
+  .ios-safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* Нижний safe-area отступ (домашняя панель) */
+  .ios-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Надёжная высота экрана для мобильных Safari: dvh/svh fallback */
+  .ios-vh {
+    min-height: 100svh;
+  }
+  @supports (min-height: 100dvh) {
+    .ios-vh {
+      min-height: 100dvh;
+    }
+  }
+
+  /* Плавная прокрутка на iOS, контроль overscroll */
+  .ios-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  /* Прикрепление блока ввода к низу контейнера с учётом safe-area */
+  .ios-sticky-bottom {
+    position: sticky;
+    bottom: 0;
+  }
+  @supports (bottom: env(safe-area-inset-bottom)) {
+    .ios-sticky-bottom {
+      bottom: env(safe-area-inset-bottom);
+    }
+  }
+}
+
+/* Мобильная типографика и компактный Markdown */
+@media (max-width: 420px) {
+  html { font-size: 15px; }
+}
+
+@layer utilities {
+  .markdown-compact {
+    line-height: 1.35;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .markdown-compact h1,
+  .markdown-compact h2,
+  .markdown-compact h3 {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .markdown-compact pre {
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+  }
+  .markdown-compact code {
+    font-size: 0.85rem;
+  }
+  .markdown-compact ul,
+  .markdown-compact ol {
+    padding-left: 1rem;
+  }
+  .markdown-compact table {
+    font-size: 0.85rem;
+  }
+}
+
 /* Brand enter animation for Cubick AI link */
 @keyframes brandEnter {
   from {

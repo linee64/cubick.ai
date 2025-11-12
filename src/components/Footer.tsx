@@ -41,7 +41,7 @@ import { useI18n } from "@/lib/i18n";
 const Footer = () => {
   const { t } = useI18n();
   return (
-    <footer className="border-t border-border bg-card mt-auto">
+    <footer className="border-t border-border bg-card mt-auto ios-safe-bottom">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* О проекте */}

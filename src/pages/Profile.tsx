@@ -30,9 +30,9 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="ios-vh flex flex-col">
         <Header />
-        <main className="flex-1 py-12 px-4">
+        <main className="flex-1 ios-scroll py-8 md:py-12 px-3 md:px-4">
           <PageTransition>
           <div className="container mx-auto max-w-4xl">
             <Card className="p-8 text-center interactive-card">
@@ -49,18 +49,18 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="ios-vh flex flex-col">
       <Header />
       
-      <main className="flex-1 py-12 px-4">
+      <main className="flex-1 ios-scroll py-8 md:py-12 px-3 md:px-4">
         <PageTransition>
         <div className="container mx-auto max-w-4xl">
-          <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("Профиль")}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("Профиль")}</h1>
           {(() => {
             const solves = getSolvesForUser(user.id);
             const { count, bestMs, avgMs } = computeStats(solves);
             return (
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 <Card className="p-6 text-center interactive-card">
                   <Clock className="h-8 w-8 mx-auto mb-2 text-primary" />
                   <div className="text-2xl font-bold">{count}</div>

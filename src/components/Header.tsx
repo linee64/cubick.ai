@@ -54,9 +54,9 @@ const Header = () => {
     }
   };
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-6">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 ios-safe-top">
+      <div className="container mx-auto px-2 md:px-4 h-12 md:h-16 flex items-center justify-between">
+        <div className="flex items-center gap-3 md:gap-6">
           <Link
             to="/"
             onClick={handleBrandActivate}
@@ -68,7 +68,7 @@ const Header = () => {
             className={`flex items-center gap-2 transition-opacity transition-transform duration-300 ${brandAnimating ? "scale-95 opacity-70" : "hover:opacity-80"} ${brandEntering ? "brand-enter" : ""}`}
           >
             <Logo />
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Cubick AI</span>
+            <span className="text-base md:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent truncate max-w-[160px] sm:max-w-[220px] md:max-w-none">Cubick AI</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-1">
@@ -81,18 +81,27 @@ const Header = () => {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2">
-          <LanguageToggle />
+        <div className="flex items-center gap-1 md:gap-2">
+          <div className="hidden sm:block">
+            <LanguageToggle />
+          </div>
           <ThemeToggle />
           {!loading && user && (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              {/* Mobile: профиль как иконка */}
+              <Button variant="ghost" size="icon" asChild className="inline-flex md:hidden">
+                <Link to="/profile">
+                  <User className="h-5 w-5" />
+                </Link>
+              </Button>
+              {/* Desktop: профиль/выход как текстовые кнопки */}
+              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
                 <Link to="/profile">
                   <User className="h-4 w-4 mr-2" />
                   {t("Профиль")}
                 </Link>
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="hidden md:inline-flex">
                 <LogOut className="h-4 w-4 mr-2" />
                 {t("Выйти")}
               </Button>
@@ -100,13 +109,20 @@ const Header = () => {
           )}
           {!loading && !user && (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              {/* Mobile: вход как иконка */}
+              <Button variant="ghost" size="icon" asChild className="inline-flex md:hidden">
+                <Link to="/login">
+                  <LogIn className="h-5 w-5" />
+                </Link>
+              </Button>
+              {/* Desktop: вход/регистрация как текстовые кнопки */}
+              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
                 <Link to="/login">
                   <LogIn className="h-4 w-4 mr-2" />
                   {t("Войти")}
                 </Link>
               </Button>
-              <Button size="sm" className="bg-gradient-to-r from-primary to-accent hover:opacity-90" asChild>
+              <Button size="sm" className="hidden md:inline-flex bg-gradient-to-r from-primary to-accent hover:opacity-90" asChild>
                 <Link to="/register">
                   <UserPlus className="h-4 w-4 mr-2" />
                   {t("Регистрация")}

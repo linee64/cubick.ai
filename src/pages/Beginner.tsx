@@ -10,10 +10,10 @@ import { useI18n } from "@/lib/i18n";
 const Beginner = () => {
   const { t } = useI18n();
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="ios-vh flex flex-col">
       <Header />
       
-      <main className="flex-1 py-12 px-4">
+      <main className="flex-1 ios-scroll py-8 md:py-12 px-3 md:px-4">
         <PageTransition>
         <div className="container mx-auto max-w-4xl">
           <Button variant="ghost" asChild className="mb-6">
@@ -23,7 +23,7 @@ const Beginner = () => {
             </Link>
           </Button>
 
-          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             {t("Метод для новичков")}
           </h1>
 
@@ -34,7 +34,7 @@ const Beginner = () => {
             </p>
           </Card>
 
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold flex-shrink-0">
