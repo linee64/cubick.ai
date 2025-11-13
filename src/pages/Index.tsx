@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/ui/PageTransition";
@@ -6,11 +7,60 @@ import Timer from "@/components/Timer";
 import Scramble from "@/components/Scramble";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { BookOpen, Zap } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { getSupabase } from "@/integrations/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
+  const { user } = useAuth();
+  const [feedback, setFeedback] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const taRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const adjustTextareaHeight = () => {
+    const el = taRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [feedback]);
+
+  const submitFeedback = async () => {
+    const text = feedback.trim();
+    if (!text) {
+      toast({ title: t("Пустой отзыв"), description: t("Пожалуйста, напишите ваш отзыв") });
+      return;
+    }
+    if (text.length > 2000) {
+      toast({ title: t("Слишком длинный отзыв"), description: t("Сократите текст до 2000 символов") });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const supabase = getSupabase() as unknown as SupabaseClient;
+      const { error } = await supabase.from("feedback").insert({
+        content: text,
+        user_id: user?.id ?? null,
+        lang: language,
+      });
+      if (error) throw error;
+      setFeedback("");
+      toast({ title: t("Отзыв отправлен"), description: t("Спасибо за ваш отзыв!") });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toast({ title: t("Ошибка отправки"), description: msg });
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="ios-vh flex flex-col">
       <Header />
@@ -55,7 +105,7 @@ const Index = () => {
           <div className="container mx-auto max-w-4xl mb-8 md:mb-12">
             <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2">
               <div className="mb-8">
-                <Scramble />
+                <Scramble variant="noButton" />
               </div>
               
               <div className="border-t border-border pt-8">
@@ -111,6 +161,34 @@ const Index = () => {
                 </p>
               </Card>
             </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto max-w-5xl px-3 md:px-4">
+            <Card className="p-8 md:p-12 bg-[radial-gradient(circle_at_center,hsl(var(--card)),hsl(var(--primary)/0.35))] dark:bg-[linear-gradient(rgba(0,0,0,0.18),rgba(0,0,0,0.18)),radial-gradient(circle_at_center,hsl(var(--primary)),hsl(var(--muted)))] shadow-xl border-2 text-center dark:text-white text-foreground">
+              <h2 className="text-3xl md:text-6xl font-bold mb-6 text-primary dark:bg-gradient-to-r dark:from-primary dark:to-accent dark:bg-clip-text dark:text-transparent">
+                {t("Поделиться отзывом")}
+              </h2>
+              <p className="text-base md:text-xl dark:text-white/85 text-muted-foreground max-w-2xl mx-auto mb-8">
+                {t("Мы очень уважаем мнение наших юзеров и верим, что они помогут сделать сайт лучше")}
+              </p>
+              <Textarea
+                ref={taRef}
+                value={feedback}
+                onChange={(e) => {
+                  setFeedback(e.target.value);
+                  adjustTextareaHeight();
+                }}
+                placeholder={t("Напишите отзыв...")}
+                className="mx-auto w-full max-w-3xl text-lg dark:text-white text-foreground placeholder:text-center placeholder:dark:text-white/70 placeholder:text-foreground/60 resize-none overflow-hidden bg-transparent border-2 border-border rounded-xl p-6"
+              />
+              <div className="w-full max-w-3xl mx-auto flex justify-start mt-6">
+                <Button size="lg" onClick={submitFeedback} disabled={submitting} className="interactive-button opacity-90">
+                  {t("Отправить отзыв")}
+                </Button>
+              </div>
+            </Card>
           </div>
         </section>
         </PageTransition>

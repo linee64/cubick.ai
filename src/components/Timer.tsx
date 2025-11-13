@@ -116,11 +116,12 @@ const Timer = ({ variant = "default" }: TimerProps) => {
     return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
   };
 
-  const handleReset = () => {
-    setTime(0);
-    setIsRunning(false);
-    setIsReady(false);
-  };
+const handleReset = () => {
+  setTime(0);
+  setIsRunning(false);
+  setIsReady(false);
+  window.dispatchEvent(new CustomEvent("cubick:scramble:new"));
+};
 
   const handleSave = () => {
     if (time > 0) {

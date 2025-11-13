@@ -24,6 +24,7 @@ const enDict: Record<string, string> = {
   "Cubick AI поможет вам освоить сборку кубика от новичка до продвинутого уровня": "Cubick AI helps you progress from beginner to advanced solving",
   "Для новичков": "For Beginners",
   "Метод Фридрих": "CFOP",
+  "На весь экран": "Full screen",
 
 // Features
   "ИИ-помощник": "AI Coach",
@@ -38,6 +39,9 @@ const enDict: Record<string, string> = {
   "Отпустите пробел для старта": "Release Space to start",
   "Нажмите пробел для остановки": "Press Space to stop",
   "Зажмите пробел для начала": "Hold Space to get ready",
+  "Отпустите экран для старта": "Release screen to start",
+  "Нажмите на таймер для остановки": "Tap timer to stop",
+  "Зажмите экран для начала": "Hold screen to start",
   "Заново": "Reset",
   "Сохранить": "Save",
   "Время сохранено!": "Time saved!",
@@ -171,6 +175,20 @@ const enDict: Record<string, string> = {
   "ИИ‑тренер": "AI Coach",
   "Поговорить с ИИ на отдельной странице": "Chat with AI on a dedicated page",
   "Перейти к чату с ИИ": "Go to AI chat",
+
+  // Feedback
+  "Поделиться отзывом": "Share your feedback",
+  "Мы очень уважаем мнение наших юзеров и верим, что они помогут сделать сайт лучше": "We value our users' opinions and believe they help make the site better",
+  "Напишите отзыв...": "Write your feedback...",
+  "Отправить": "Submit",
+  "Отправить отзыв": "Submit feedback",
+  "Отзыв отправлен": "Feedback submitted",
+  "Спасибо за ваш отзыв!": "Thank you for your feedback!",
+  "Ошибка отправки": "Submission error",
+  "Пустой отзыв": "Empty feedback",
+  "Пожалуйста, напишите ваш отзыв": "Please write your feedback",
+  "Слишком длинный отзыв": "Feedback too long",
+  "Сократите текст до 2000 символов": "Please shorten to 2000 characters",
 
   // Common units
   "сек": "sec",
