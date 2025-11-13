@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { User, LogIn, UserPlus, BookOpen, LogOut } from "lucide-react";
+import { User, LogIn, UserPlus, BookOpen, LogOut, Bot } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import Logo from "./Logo";
@@ -76,6 +76,12 @@ const Header = () => {
               <Link to="/instructions">
                 <BookOpen className="h-4 w-4 mr-2" />
                 {t("Инструкции")}
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/ai">
+                <Bot className="h-4 w-4 mr-2" />
+                {t("ИИ‑тренер")}
               </Link>
             </Button>
           </nav>

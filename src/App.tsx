@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import Instructions from "./pages/Instructions";
 import NotFound from "./pages/NotFound";
 import TimerFullscreen from "./pages/TimerFullscreen";
+import AICoachPage from "./pages/AICoachPage";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/instructions" element={<Instructions />} />
+                <Route path="/ai" element={<AICoachPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

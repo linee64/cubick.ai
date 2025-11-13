@@ -11,6 +11,7 @@ import { callGemini } from "@/integrations/gemini";
 import { callAiCoachEdge } from "@/integrations/edge";
 import { useI18n } from "@/lib/i18n";
 import { trackEvent } from "@/lib/analytics";
+import { useAuth } from "@/hooks/use-auth";
 
 type Message = {
   role: "user" | "assistant";
@@ -25,6 +26,7 @@ export function AICoach() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { t } = useI18n();
+  const { user } = useAuth();
   const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
   const isSpeedcubingRelated = (text: string) => {
@@ -33,9 +35,24 @@ export function AICoach() {
       "спидкуб", "спидкубинг", "speedcubing", "rubik", "рубик", "кубик",
       "cfop", "f2l", "oll", "pll", "скрамбл", "scramble", "таймер",
       "timer", "wca", "смазка", "lube", "магнит", "алгоритм", "алгоритмы",
-      "сборка", "вращение", "угол", "пермут", "пермутация"
+      "сборка", "вращение", "угол", "пермут", "пермутация", "крест", "cross",
+      "last layer", "ll"
     ];
     return keywords.some((k) => s.includes(k));
+  };
+
+  const isSmallTalk = (text: string) => {
+    const s = text.toLowerCase().trim();
+    if (s.length <= 32) {
+      const phrases = [
+        "привет", "здравствуй", "здравствуйте", "добрый день", "добрый вечер",
+        "hi", "hello", "hey", "yo", "ку", "как дела", "как ты",
+        "спасибо", "ок", "ладно", "пока", "до свидания", "help", "помощь",
+        "что умеешь", "что ты умеешь"
+      ];
+      if (phrases.some((p) => s.includes(p))) return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -48,6 +65,15 @@ export function AICoach() {
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
+
+    if (!user) {
+      toast({
+        title: t("🔒 Требуется авторизация"),
+        description: t("Войдите, чтобы общаться с ИИ"),
+        variant: "warning",
+      });
+      return;
+    }
 
     const now = Date.now();
     const minIntervalMs = 8000;
@@ -62,7 +88,7 @@ export function AICoach() {
       return;
     }
 
-    if (!isSpeedcubingRelated(input)) {
+    if (!isSpeedcubingRelated(input) && !isSmallTalk(input)) {
       toast({
         title: t("🚫 Тема вне спидкубинга"),
         description: t("Я отвечаю только по вопросам спидкубинга. Переформулируйте запрос."),

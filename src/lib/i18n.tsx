@@ -167,6 +167,11 @@ const enDict: Record<string, string> = {
   "Мы в соцсетях": "Follow us",
   "Все права защищены.": "All rights reserved.",
 
+  // AI Coach nav and CTA
+  "ИИ‑тренер": "AI Coach",
+  "Поговорить с ИИ на отдельной странице": "Chat with AI on a dedicated page",
+  "Перейти к чату с ИИ": "Go to AI chat",
+
   // Common units
   "сек": "sec",
 

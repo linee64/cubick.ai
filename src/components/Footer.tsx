@@ -86,7 +86,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground pl-2 md:pl-3">
-          © 2024 Cubick AI. {t("Все права защищены.")}
+          © 2025 Cubick AI. {t("Все права защищены.")}
         </div>
       </div>
     </footer>

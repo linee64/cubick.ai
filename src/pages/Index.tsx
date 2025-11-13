@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageTransition from "@/components/ui/PageTransition";
 import Timer from "@/components/Timer";
 import Scramble from "@/components/Scramble";
-import { AICoach } from "@/components/AICoach";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BookOpen, Zap } from "lucide-react";
@@ -65,9 +64,16 @@ const Index = () => {
             </Card>
           </div>
 
-          {/* AI Coach Section */}
           <div className="container mx-auto max-w-4xl">
-            <AICoach />
+            <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center">
+              <h2 className="text-2xl font-semibold mb-4">{t("ИИ‑тренер")}</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                {t("Поговорить с ИИ на отдельной странице")}
+              </p>
+              <Button size="lg" asChild className="bg-gradient-to-r from-primary to-accent hover:opacity-90">
+                <Link to="/ai">{t("Перейти к чату с ИИ")}</Link>
+              </Button>
+            </Card>
           </div>
         </section>
 
