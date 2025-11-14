@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -418,6 +419,25 @@ All colors MUST be HSL.
   }
   .markdown-compact table {
     font-size: 0.85rem;
+  }
+}
+
+@layer components {
+  .font-timer {
+    font-family: 'Orbitron', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    letter-spacing: 0.02em;
+  }
+  .timer-digits { position: relative; }
+  .timer-digits::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 50%;
+    height: 1.5px;
+    background: currentColor;
+    opacity: 0.18;
+    transform: translateY(-50%);
   }
 }
 

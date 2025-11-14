@@ -136,17 +136,17 @@ const handleReset = () => {
 
   const sizeClass =
     variant === "fullscreen"
-      ? "text-6xl sm:text-7xl md:text-[10rem] lg:text-[12rem]"
-      : "text-5xl sm:text-6xl md:text-8xl";
+      ? "text-5xl sm:text-6xl md:text-[9rem] lg:text-[11rem]"
+      : "text-4xl sm:text-5xl md:text-7xl";
 
-  const containerGapClass = variant === "fullscreen" ? "gap-10" : "gap-6";
-  const digitsTopMarginClass = variant === "fullscreen" ? "mt-6 sm:mt-8" : "";
-  const buttonsMarginClass = variant === "fullscreen" ? "mt-6 sm:mt-10" : "";
+  const containerGapClass = variant === "fullscreen" ? "gap-8" : "gap-5";
+  const digitsTopMarginClass = variant === "fullscreen" ? "mt-5 sm:mt-7" : "";
+  const buttonsMarginClass = variant === "fullscreen" ? "mt-4 sm:mt-8" : "mt-4";
 
   return (
     <div className={`flex flex-col items-center ${containerGapClass}`}>
       <div 
-        className={`${sizeClass} ${digitsTopMarginClass} font-bold font-mono transition-all duration-200 ${
+        className={`${sizeClass} ${digitsTopMarginClass} font-bold font-timer timer-digits transition-all duration-200 ${
           isReady ? "text-accent scale-110" : "text-foreground"
         } ${isRunning ? "animate-pulse" : ""} ${pulse ? "pulse-once" : ""}`}
         style={{
@@ -173,7 +173,7 @@ const handleReset = () => {
       <div className={`flex gap-3 ${buttonsMarginClass}`}>
         <Button
           variant="outline"
-          size="lg"
+          size="sm"
           onClick={handleReset}
           disabled={isRunning}
           className="interactive-button"
@@ -182,7 +182,7 @@ const handleReset = () => {
           {t("Заново")}
         </Button>
         <Button
-          size="lg"
+          size="sm"
           onClick={handleSave}
           disabled={time === 0 || isRunning}
           className="bg-gradient-to-r from-primary to-accent hover:opacity-90 interactive-button"
