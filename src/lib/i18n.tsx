@@ -25,6 +25,14 @@ const enDict: Record<string, string> = {
   "Для новичков": "For Beginners",
   "Метод Фридрих": "CFOP",
   "На весь экран": "Full screen",
+  "Инструкции": "Instructions",
+  "Справочник": "Reference",
+  "Навигация": "Navigation",
+  "Меню": "Menu",
+  "Аккаунт": "Account",
+  "Настройки": "Settings",
+  "Язык": "Language",
+  "Тема": "Theme",
 
 // Features
   "ИИ-помощник": "AI Coach",

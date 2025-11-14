@@ -173,19 +173,19 @@ const handleReset = () => {
       <div className={`flex gap-3 ${buttonsMarginClass}`}>
         <Button
           variant="outline"
-          size="sm"
+          size="default"
           onClick={handleReset}
           disabled={isRunning}
-          className="interactive-button"
+          className="interactive-button h-9 px-3 text-sm md:h-11 md:px-8 md:text-base"
         >
           <RotateCcw className="h-5 w-5 mr-2" />
           {t("Заново")}
         </Button>
         <Button
-          size="sm"
+          size="default"
           onClick={handleSave}
           disabled={time === 0 || isRunning}
-          className="bg-gradient-to-r from-primary to-accent hover:opacity-90 interactive-button"
+          className="bg-gradient-to-r from-primary to-accent hover:opacity-90 interactive-button h-9 px-3 text-sm md:h-11 md:px-8 md:text-base"
         >
           <Save className="h-5 w-5 mr-2" />
           {t("Сохранить")}

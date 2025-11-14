@@ -1,7 +1,18 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { User, LogIn, UserPlus, BookOpen, LogOut, Bot } from "lucide-react";
+import { User, LogIn, UserPlus, BookOpen, LogOut, Bot, Menu } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import Logo from "./Logo";
@@ -72,12 +83,21 @@ const Header = () => {
           </Link>
           
           <nav className="hidden md:flex items-center gap-1">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/instructions">
-                <BookOpen className="h-4 w-4 mr-2" />
-                {t("Инструкции")}
-              </Link>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  {t("Инструкции")}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" side="bottom">
+                <DropdownMenuItem onClick={() => navigate("/instructions")}>{t("Справочник")}</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/friedrich#f2l")}>F2L</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/friedrich#oll")}>OLL</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/friedrich#pll")}>PLL</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/ai">
                 <Bot className="h-4 w-4 mr-2" />
@@ -88,31 +108,6 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-1 md:gap-2">
-          <div className="hidden sm:block">
-            <LanguageToggle />
-          </div>
-          <ThemeToggle />
-          {!loading && user && (
-            <>
-              {/* Mobile: профиль как иконка */}
-              <Button variant="ghost" size="icon" asChild className="inline-flex md:hidden">
-                <Link to="/profile">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
-              {/* Desktop: профиль/выход как текстовые кнопки */}
-              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
-                <Link to="/profile">
-                  <User className="h-4 w-4 mr-2" />
-                  {t("Профиль")}
-                </Link>
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="hidden md:inline-flex">
-                <LogOut className="h-4 w-4 mr-2" />
-                {t("Выйти")}
-              </Button>
-            </>
-          )}
           {!loading && !user && (
             <>
               {/* Mobile: вход как иконка */}
@@ -136,6 +131,55 @@ const Header = () => {
               </Button>
             </>
           )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label={t("Меню")}>
+                <Menu className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuLabel>{t("Навигация")}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <span className="inline-flex items-center gap-2"><BookOpen className="h-4 w-4" />{t("Инструкции")}</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => navigate("/instructions")}>{t("Справочник")}</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/friedrich#f2l")}>F2L</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/friedrich#oll")}>OLL</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/friedrich#pll")}>PLL</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuItem onClick={() => navigate("/ai")}>{t("ИИ‑тренер")}</DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>{t("Аккаунт")}</DropdownMenuLabel>
+              {!loading && user ? (
+                <>
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>{t("Профиль")}</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>{t("Выйти")}</DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem onClick={() => navigate("/login")}>{t("Войти")}</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/register")}>{t("Регистрация")}</DropdownMenuItem>
+                </>
+              )}
+
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>{t("Настройки")}</DropdownMenuLabel>
+              <div className="px-2 py-1.5 flex items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">{t("Язык")}</span>
+                <LanguageToggle />
+              </div>
+              <div className="px-2 py-1.5 flex items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">{t("Тема")}</span>
+                <ThemeToggle />
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
