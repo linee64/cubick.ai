@@ -167,7 +167,7 @@ const Index = () => {
         <section className="py-16 md:py-24">
           <div className="container mx-auto max-w-5xl px-3 md:px-4">
             <Card className="p-8 md:p-12 bg-[radial-gradient(circle_at_center,hsl(var(--card)),hsl(var(--primary)/0.35))] dark:bg-[linear-gradient(rgba(0,0,0,0.18),rgba(0,0,0,0.18)),radial-gradient(circle_at_center,hsl(var(--primary)),hsl(var(--muted)))] shadow-xl border-2 text-center dark:text-white text-foreground">
-              <h2 className="text-3xl md:text-6xl font-bold mb-6 text-primary dark:bg-gradient-to-r dark:from-primary dark:to-accent dark:bg-clip-text dark:text-transparent">
+              <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight font-heading mb-6 text-primary dark:bg-gradient-to-r dark:from-primary dark:to-accent dark:bg-clip-text dark:text-transparent">
                 {t("Поделиться отзывом")}
               </h2>
               <p className="text-base md:text-xl dark:text-white/85 text-muted-foreground max-w-2xl mx-auto mb-8">
