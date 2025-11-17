@@ -36,7 +36,10 @@ export function AICoach() {
       "cfop", "f2l", "oll", "pll", "скрамбл", "scramble", "таймер",
       "timer", "wca", "смазка", "lube", "магнит", "алгоритм", "алгоритмы",
       "сборка", "вращение", "угол", "пермут", "пермутация", "крест", "cross",
-      "last layer", "ll"
+      "last layer", "ll",
+      "look-ahead", "fingertricks", "tps", "inspection", "lock-up", "lockups", "regrip", "auf",
+      "зблл", "zbll", "coll", "vls", "eo cross", "x-cross", "keyhole", "sune", "antisune",
+      "инспекция", "фингертриксы", "регрип", "ауф", "локап", "тпс"
     ];
     return keywords.some((k) => s.includes(k));
   };

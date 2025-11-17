@@ -93,9 +93,9 @@ const Header = () => {
               <DropdownMenuContent align="start" side="bottom">
                 <DropdownMenuItem onClick={() => navigate("/instructions")}>{t("Справочник")}</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/friedrich#f2l")}>F2L</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/friedrich#oll")}>OLL</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/friedrich#pll")}>PLL</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/f2l")}>F2L</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/oll")}>OLL</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/pll")}>PLL</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="ghost" size="sm" asChild>
@@ -147,9 +147,9 @@ const Header = () => {
                 <DropdownMenuSubContent>
                   <DropdownMenuItem onClick={() => navigate("/instructions")}>{t("Справочник")}</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/friedrich#f2l")}>F2L</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/friedrich#oll")}>OLL</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/friedrich#pll")}>PLL</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/f2l")}>F2L</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/oll")}>OLL</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/pll")}>PLL</DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuItem onClick={() => navigate("/ai")}>{t("ИИ‑тренер")}</DropdownMenuItem>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
+import CFOPNav from "@/components/CFOPNav";
 
 const Friedrich = () => {
   const { t } = useI18n();
@@ -22,6 +23,8 @@ const Friedrich = () => {
               {t("Назад")}
             </Link>
           </Button>
+
+          <CFOPNav />
 
           <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             {t("Метод Фридрих (CFOP)")}
@@ -90,7 +93,7 @@ const Friedrich = () => {
               </div>
             </Card>
 
-            <Card className="p-6 hover:shadow-lg transition-shadow">
+            <Card className="p-6 hover:shadow-lg transition-shadow" id="cross">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                   PLL

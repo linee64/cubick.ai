@@ -530,3 +530,10 @@
 - Client prompt (src/integrations/gemini.ts): updated system prompt to forbid Markdown; require plain text only.
 - Edge Function (supabase/ai-coach/index.ts): aligned system prompt to forbid Markdown and enforce plain text responses.
 - Goal: ensure AI replies display as simple text without headings/lists/code blocks; preserve line breaks.
+## 2025-11-17 — Добавлен раздел F2L в Инструкции
+
+- Внедрены вкладки F2L/OLL/PLL на странице `src/pages/Instructions.tsx:114`.
+- Реализована карточка случая F2L с SVG‑диаграммой и копированием алгоритма.
+- Заполнено 12 базовых случаев F2L с названиями, планом действий и алгоритмами.
+- Добавлены ключи локализации для F2L UI в `src/lib/i18n.tsx:28-61`.
+- Оставлены заглушки для OLL/PLL, план дальнейшего наполнения сохранён.

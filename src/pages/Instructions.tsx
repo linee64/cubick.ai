@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import PageTransition from "@/components/ui/PageTransition";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 
 export default function Instructions() {
@@ -111,11 +113,38 @@ export default function Instructions() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
         <PageTransition>
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <div className="grid gap-4 md:grid-cols-3 hidden">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle>F2L</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Link to="/f2l" className="inline-flex items-center justify-center w-full h-10 rounded-md bg-primary text-primary-foreground">{t("Открыть F2L")}</Link>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle>OLL</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Link to="/oll" className="inline-flex items-center justify-center w-full h-10 rounded-md bg-primary text-primary-foreground">{t("Открыть OLL")}</Link>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle>PLL</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Link to="/pll" className="inline-flex items-center justify-center w-full h-10 rounded-md bg-primary text-primary-foreground">{t("Открыть PLL")}</Link>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {t("Нотация кубика Рубика")}
-            </h1>
+            </h2>
             <p className="text-muted-foreground text-lg">
               {t("Изучите символы и обозначения для записи алгоритмов сборки")}
             </p>
@@ -179,17 +208,13 @@ export default function Instructions() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <div className="font-mono text-lg bg-background p-3 rounded-md">
-                  R U R' U'
-                </div>
+                <div className="font-mono text-lg bg-background p-3 rounded-md">R U R' U'</div>
                 <p className="text-sm text-muted-foreground">
                   {t("Один из базовых алгоритмов - поворот правой грани вверх и обратно")}
                 </p>
               </div>
               <div className="space-y-2">
-                <div className="font-mono text-lg bg-background p-3 rounded-md">
-                  F R U R' U' F'
-                </div>
+                <div className="font-mono text-lg bg-background p-3 rounded-md">F R U R' U' F'</div>
                 <p className="text-sm text-muted-foreground">
                   {t("Алгоритм для создания креста на последнем слое")}
                 </p>

@@ -3,6 +3,7 @@ type ChatMessage = {
   content: string;
 };
 
+import { systemPrompt } from "@/integrations/gemini";
 // Вызов Supabase Edge Function 'ai-coach' с разбором SSE потока
 export async function callAiCoachEdge(
   messages: ChatMessage[],
@@ -17,6 +18,7 @@ export async function callAiCoachEdge(
 
   const functionsUrl = SUPABASE_URL.replace(".supabase.co", ".functions.supabase.co") + "/ai-coach";
 
+  const payload = { messages: [{ role: "user", content: systemPrompt }, ...(messages ?? [])] };
   const res = await fetch(functionsUrl, {
     method: "POST",
     headers: {
@@ -24,7 +26,7 @@ export async function callAiCoachEdge(
       Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
       apikey: SUPABASE_PUBLISHABLE_KEY,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify(payload),
     signal,
   });
 

@@ -15,6 +15,9 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Instructions from "./pages/Instructions";
+import F2LPage from "./pages/F2L";
+import OLLPage from "./pages/OLL";
+import PLLPage from "./pages/PLL";
 import NotFound from "./pages/NotFound";
 import TimerFullscreen from "./pages/TimerFullscreen";
 import AICoachPage from "./pages/AICoachPage";
@@ -65,6 +68,9 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/instructions" element={<Instructions />} />
+                <Route path="/f2l" element={<F2LPage />} />
+                <Route path="/oll" element={<OLLPage />} />
+                <Route path="/pll" element={<PLLPage />} />
                 <Route path="/ai" element={<AICoachPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
