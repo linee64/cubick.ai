@@ -5,14 +5,15 @@ import { AICoach } from "@/components/AICoach";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Bot } from "lucide-react";
 
 const AICoachPage = () => {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -49,7 +50,15 @@ const AICoachPage = () => {
             <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {t("ИИ‑тренер")}
             </h1>
-            <AICoach />
+            {(() => {
+              const preset = params.get("preset");
+              const autoPrompt = preset === "novice"
+                ? (language === "ru" ? "Новичок" : "Beginner")
+                : (preset === "friedrich" || preset === "cfop")
+                  ? (language === "ru" ? "Фридрих" : "CFOP")
+                  : undefined;
+              return <AICoach autoPrompt={autoPrompt} />;
+            })()}
           </div>
         </PageTransition>
       </main>

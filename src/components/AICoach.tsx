@@ -18,12 +18,14 @@ type Message = {
   content: string;
 };
 
-export function AICoach() {
+export function AICoach({ autoPrompt }: { autoPrompt?: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lastSentAt, setLastSentAt] = useState<number>(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const autoSentRef = useRef(false);
+  const [inSpeedcubing, setInSpeedcubing] = useState(false);
   const { toast } = useToast();
   const { t } = useI18n();
   const { user } = useAuth();
@@ -31,17 +33,20 @@ export function AICoach() {
 
   const isSpeedcubingRelated = (text: string) => {
     const s = text.toLowerCase();
+    const flow = ["далее", "next", "продолжить", "continue", "следующий", "next step"];
     const keywords = [
       "спидкуб", "спидкубинг", "speedcubing", "rubik", "рубик", "кубик",
-      "cfop", "f2l", "oll", "pll", "скрамбл", "scramble", "таймер",
+      "cfop", "фридрих", "f2l", "oll", "pll", "скрамбл", "scramble", "таймер",
       "timer", "wca", "смазка", "lube", "магнит", "алгоритм", "алгоритмы",
       "сборка", "вращение", "угол", "пермут", "пермутация", "крест", "cross",
       "last layer", "ll",
       "look-ahead", "fingertricks", "tps", "inspection", "lock-up", "lockups", "regrip", "auf",
       "зблл", "zbll", "coll", "vls", "eo cross", "x-cross", "keyhole", "sune", "antisune",
-      "инспекция", "фингертриксы", "регрип", "ауф", "локап", "тпс"
+      "инспекция", "фингертриксы", "регрип", "ауф", "локап", "тпс",
+      "новичок", "beginner", "novice",
+      "интуитивно", "интуитивный", "intuitive", "solve", "solving"
     ];
-    return keywords.some((k) => s.includes(k));
+    return flow.some((k) => s === k || s.includes(k)) || keywords.some((k) => s.includes(k));
   };
 
   const isSmallTalk = (text: string) => {
@@ -66,8 +71,9 @@ export function AICoach() {
 
   // Локальные оффлайн-советы удалены — переходим на прямой вызов Gemini
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (overrideText?: string) => {
+    const text = (overrideText ?? input).trim();
+    if (!text || isLoading) return;
 
     if (!user) {
       toast({
@@ -80,8 +86,9 @@ export function AICoach() {
 
     const now = Date.now();
     const minIntervalMs = 8000;
+    const flow = ["далее", "next", "продолжить", "continue", "следующий", "next step"];
     const diff = now - lastSentAt;
-    if (diff < minIntervalMs) {
+    if (diff < minIntervalMs && !flow.some((k) => text.toLowerCase() === k)) {
       const waitSec = Math.ceil((minIntervalMs - diff) / 1000);
       toast({
         title: t("⏳ Слишком часто"),
@@ -91,7 +98,8 @@ export function AICoach() {
       return;
     }
 
-    if (!isSpeedcubingRelated(input) && !isSmallTalk(input)) {
+    const isAuto = !!overrideText;
+    if (!isAuto && !isSpeedcubingRelated(text) && !isSmallTalk(text) && !inSpeedcubing) {
       toast({
         title: t("🚫 Тема вне спидкубинга"),
         description: t("Я отвечаю только по вопросам спидкубинга. Переформулируйте запрос."),
@@ -100,10 +108,11 @@ export function AICoach() {
       return;
     }
 
-    const userMessage: Message = { role: "user", content: input };
+    const userMessage: Message = { role: "user", content: text };
     setMessages((prev) => [...prev, userMessage]);
-    trackEvent("ai_message_sent", { length: input.length });
-    setInput("");
+    if (isAuto || isSpeedcubingRelated(text)) setInSpeedcubing(true);
+    trackEvent("ai_message_sent", { length: text.length });
+    if (!overrideText) setInput("");
     setIsLoading(true);
     setLastSentAt(Date.now());
 
@@ -222,6 +231,13 @@ export function AICoach() {
       sendMessage();
     }
   };
+
+  useEffect(() => {
+    if (autoPrompt && !autoSentRef.current && messages.length === 0 && user) {
+      autoSentRef.current = true;
+      sendMessage(autoPrompt);
+    }
+  }, [autoPrompt, messages.length, user]);
 
   return (
     <Card className="w-full max-w-2xl mx-auto">

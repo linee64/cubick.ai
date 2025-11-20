@@ -70,9 +70,25 @@ const Beginner = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">{t("Средний слой")}</h3>
-                  <p className="text-muted-foreground">
-                    {t("Расставьте ребра среднего слоя, используя алгоритмы для левой и правой вставки.")}
-                  </p>
+                  <ul className="text-muted-foreground list-disc list-inside space-y-1">
+                    <li>{t("Найдите ребро без жёлтой наклейки на верхнем слое.")}</li>
+                    <li>{t("Совместите лицевой цвет ребра с центром передней грани.")}</li>
+                    <li>{t("Если целевой цвет справа: поверните верхний слой от цвета на один ход.")}</li>
+                    <li>{t("Выполните правый пиф‑паф: R U R' U'.")}</li>
+                    <li>{t("Перехват к целевому цвету и левый пиф‑паф: L' U' L U.")}</li>
+                    <li>{t("Если целевой цвет слева: зеркально — повернуть от цвета, левый пиф‑паф, перехват, правый пиф‑паф.")}</li>
+                    <li>{t("Повторите для всех четырёх рёбер среднего слоя.")}</li>
+                  </ul>
+                  <div className="mt-3 grid gap-2 md:grid-cols-2">
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("Формальный алгоритм вправо:")}</div>
+                      <div className="font-mono bg-background p-2 rounded-md">U R U' R' U' F' U F</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">{t("Формальный алгоритм влево:")}</div>
+                      <div className="font-mono bg-background p-2 rounded-md">U' L' U L U F U' F'</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -126,6 +142,12 @@ const Beginner = () => {
               {t("Практикуйтесь регулярно! Начните с медленной сборки, фокусируясь на понимании алгоритмов.")} {t("Скорость придет со временем. Используйте таймер на главной странице для отслеживания прогресса.")}
             </p>
           </Card>
+
+          <div className="mt-8 flex justify-center">
+            <Button asChild className="bg-gradient-to-r from-primary to-accent hover:opacity-90 px-8 h-11 rounded-full">
+              <Link to="/ai?preset=novice">{t("Практика с AI‑Coach")}</Link>
+            </Button>
+          </div>
         </div>
         </PageTransition>
       </main>
