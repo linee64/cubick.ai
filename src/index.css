@@ -579,11 +579,36 @@ All colors MUST be HSL.
     outline: 2px solid hsl(var(--primary));
     outline-offset: 2px;
   }
+
+  .hover-glow:hover {
+    box-shadow:
+      0 10px 22px -10px hsl(var(--ring) / 0.40),
+      0 3px 10px hsl(var(--accent) / 0.28);
+  }
   .interactive-button:disabled,
   .interactive-button[aria-disabled="true"] {
     transform: none;
     box-shadow: none;
     cursor: not-allowed;
+  }
+
+  .glass {
+    background-color: hsl(var(--muted) / 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid hsl(var(--border));
+  }
+  .hover-theme {
+    transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+  .hover-theme:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 8px 20px hsl(var(--ring) / 0.40), 0 2px 6px hsl(var(--primary) / 0.25);
+    transform: translateY(-1px) scale(1.03);
+  }
+  .hover-theme:active {
+    transform: translateY(0) scale(0.99);
   }
 
   /* Minimal Elevated auth card style */
@@ -692,3 +717,28 @@ html.no-scrollbar::-webkit-scrollbar,
 html.no-scrollbar body::-webkit-scrollbar {
   display: none;
 }
+  /* Collapse/expand animation utility */
+  .collapse-anim {
+    transition: opacity 240ms ease, visibility 240ms ease;
+    will-change: opacity, visibility;
+  }
+  .collapse-anim[data-collapsed="true"] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .collapse-anim[data-collapsed="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* Shift digits slightly down while running */
+  .run-shift {
+    transition: transform 300ms ease;
+    will-change: transform;
+  }
+  .run-shift[data-run="true"] {
+    transform: translateY(9vh);
+  }
+  .run-shift[data-run="false"] {
+    transform: translateY(0);
+  }

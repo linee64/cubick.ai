@@ -141,10 +141,10 @@ const Header = () => {
               <DropdownMenuLabel>{t("Навигация")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger className="md:hidden">
                   <span className="inline-flex items-center gap-2"><BookOpen className="h-4 w-4" />{t("Инструкции")}</span>
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
+                <DropdownMenuSubContent className="md:hidden">
                   <DropdownMenuItem onClick={() => navigate("/instructions")}>{t("Справочник")}</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/f2l")}>F2L</DropdownMenuItem>

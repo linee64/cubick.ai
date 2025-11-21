@@ -30,8 +30,12 @@ export default function CFOPNav() {
             <Button
               key={it.key}
               asChild
-              variant="default"
-              className={`${activeKey === it.key ? "bg-gradient-to-r from-accent to-primary text-primary-foreground shadow-md" : "bg-muted text-foreground"} px-6 md:px-8 h-10 md:h-11 min-w-[140px] md:min-w-[180px] rounded-full`}
+              variant="outline"
+              className={`${
+                activeKey === it.key
+                  ? "bg-gradient-to-r from-accent to-primary text-primary-foreground shadow-md border-0"
+                  : "glass text-foreground"
+              } interactive-button hover-theme hover-glow h-9 md:h-11 px-3 md:px-8 text-sm md:text-base min-w-[140px] md:min-w-[180px] rounded-full`}
             >
               <Link to={it.to}>{it.label}</Link>
             </Button>

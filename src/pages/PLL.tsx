@@ -42,7 +42,7 @@ export default function PLLPage() {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">PLL — {t("Перестановка последнего слоя")}</h1>
             <div className="grid gap-4 md:grid-cols-2">
               {pllCases.map((c) => (
-                <Card key={c.id} className="hover:shadow-lg transition-shadow">
+                <Card key={c.id} className="p-4 md:p-6 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 interactive-card">
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between gap-4">
                       <div className="w-36">

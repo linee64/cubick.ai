@@ -144,7 +144,7 @@ const Beginner = () => {
           </Card>
 
           <div className="mt-8 flex justify-center">
-            <Button asChild className="bg-gradient-to-r from-primary to-accent hover:opacity-90 px-8 h-11 rounded-full">
+            <Button asChild className="glass interactive-button hover-theme bg-gradient-to-r from-primary to-accent px-8 h-11 rounded-full">
               <Link to="/ai?preset=novice">{t("Практика с AI‑Coach")}</Link>
             </Button>
           </div>

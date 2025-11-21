@@ -8,23 +8,36 @@ type ScrambleProps = {
 
 const MOVES = ["R", "L", "U", "D", "F", "B"] as const;
 const MODIFIERS = ["", "'", "2"] as const;
+const AXIS: Record<(typeof MOVES)[number], "x" | "y" | "z"> = {
+  R: "x",
+  L: "x",
+  U: "y",
+  D: "y",
+  F: "z",
+  B: "z",
+};
 
 const Scramble = ({ variant = "default" }: ScrambleProps) => {
 
   const generateScramble = useCallback(() => {
-    const scrambleLength = 15;
+    const scrambleLength = 19; // на 3–4 символа длиннее
     const seq: string[] = [];
-    let lastMove = "";
+    let lastMove: (typeof MOVES)[number] | "" = "";
+    let lastAxis: "x" | "y" | "z" | "" = "";
 
     for (let i = 0; i < scrambleLength; i++) {
-      let move;
+      let move: (typeof MOVES)[number];
+      let tries = 0;
       do {
         move = MOVES[Math.floor(Math.random() * MOVES.length)];
-      } while (move === lastMove);
-      
+        tries++;
+        // не повторять тот же ход и ось подряд, чтобы меньше повторений
+      } while ((move === lastMove || AXIS[move] === lastAxis) && tries < 50);
+
       const modifier = MODIFIERS[Math.floor(Math.random() * MODIFIERS.length)];
       seq.push(move + modifier);
       lastMove = move;
+      lastAxis = AXIS[move];
     }
 
     return seq.join(" ");

@@ -92,7 +92,7 @@ export function AICoach({ autoPrompt }: { autoPrompt?: string }) {
       const waitSec = Math.ceil((minIntervalMs - diff) / 1000);
       toast({
         title: t("⏳ Слишком часто"),
-        description: t(`Подождите ${waitSec} сек перед следующим запросом`),
+        description: `${t("Подождите")} ${waitSec} ${t("сек")} ${t("перед следующим запросом")}`,
         variant: "warning",
       });
       return;

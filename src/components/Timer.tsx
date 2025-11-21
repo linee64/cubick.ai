@@ -139,38 +139,76 @@ const handleReset = () => {
       ? "text-5xl sm:text-6xl md:text-[9rem] lg:text-[11rem]"
       : "text-4xl sm:text-5xl md:text-7xl";
 
-  const containerGapClass = variant === "fullscreen" ? "gap-8" : "gap-5";
-  const digitsTopMarginClass = variant === "fullscreen" ? "mt-5 sm:mt-7" : "";
-  const buttonsMarginClass = variant === "fullscreen" ? "mt-4 sm:mt-8" : "mt-4";
+  const containerGapClass = variant === "fullscreen" ? "gap-6" : "gap-5";
+  const digitsTopMarginClass = variant === "fullscreen" ? "mt-2 sm:mt-3" : "";
+  const buttonsMarginClass = variant === "fullscreen" ? "mt-3 sm:mt-6" : "mt-4";
+  const buttonsBottomSpaceClass = variant === "fullscreen" ? "mb-6 sm:mb-8" : "";
+  const uiCollapsed = variant === "fullscreen" && isRunning;
+
+  useEffect(() => {
+    if (variant !== "fullscreen") return;
+    const evt = uiCollapsed ? "cubick:fullscreen:collapse" : "cubick:fullscreen:expand";
+    window.dispatchEvent(new CustomEvent(evt));
+  }, [variant, uiCollapsed]);
 
   return (
     <div className={`flex flex-col items-center ${containerGapClass}`}>
-      <div 
-        className={`${sizeClass} ${digitsTopMarginClass} font-bold font-timer timer-digits transition-all duration-200 ${
-          isReady ? "text-accent scale-110" : "text-foreground"
-        } ${isRunning ? "animate-pulse" : ""} ${pulse ? "pulse-once" : ""}`}
-        style={{
-          textShadow: isRunning ? "var(--timer-glow)" : "none",
-          touchAction: "manipulation",
-          userSelect: "none",
-        }}
-        onAnimationEnd={() => setPulse(false)}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerCancel}
-      >
-        {formatTime(time)}
-      </div>
-      
-      <p className="text-sm text-muted-foreground">
-        {isReady 
-          ? t("Отпустите экран для старта") 
-          : isRunning 
-          ? t("Нажмите на таймер для остановки") 
-          : t("Зажмите экран для начала")}
-      </p>
+      {variant === "fullscreen" ? (
+        <div
+          className={`w-full min-h-[55vh] sm:min-h-[60vh] flex flex-col items-center justify-center cursor-pointer select-none`}
+          style={{ touchAction: "manipulation" }}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+        >
+          <div className="run-shift" data-run={isRunning ? "true" : "false"}>
+            <div 
+              className={`${sizeClass} ${digitsTopMarginClass} font-bold font-timer timer-digits transition-all duration-200 ${
+                isReady ? "text-accent scale-110" : "text-foreground"
+              } ${isRunning ? "animate-pulse" : ""} ${pulse ? "pulse-once" : ""}`}
+              style={{ textShadow: isRunning ? "var(--timer-glow)" : "none" }}
+              onAnimationEnd={() => setPulse(false)}
+            >
+              {formatTime(time)}
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground mt-2 collapse-anim" data-collapsed={uiCollapsed ? "true" : "false"}>
+            {isReady 
+              ? t("Отпустите экран для старта") 
+              : isRunning 
+              ? t("Нажмите на таймер для остановки") 
+              : t("Зажмите экран для начала")}
+          </p>
+        </div>
+      ) : (
+        <>
+          <div 
+            className={`${sizeClass} ${digitsTopMarginClass} font-bold font-timer timer-digits transition-all duration-200 ${
+              isReady ? "text-accent scale-110" : "text-foreground"
+            } ${isRunning ? "animate-pulse" : ""} ${pulse ? "pulse-once" : ""}`}
+            style={{
+              textShadow: isRunning ? "var(--timer-glow)" : "none",
+              touchAction: "manipulation",
+              userSelect: "none",
+            }}
+            onAnimationEnd={() => setPulse(false)}
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
+          >
+            {formatTime(time)}
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {isReady 
+              ? t("Отпустите экран для старта") 
+              : isRunning 
+              ? t("Нажмите на таймер для остановки") 
+              : t("Зажмите экран для начала")}
+          </p>
+        </>
+      )}
 
-      <div className={`flex gap-3 ${buttonsMarginClass}`}>
+      <div className={`flex gap-3 ${buttonsMarginClass} ${buttonsBottomSpaceClass} ${variant === "fullscreen" ? "collapse-anim" : ""}`} data-collapsed={uiCollapsed ? "true" : "false"}>
         <Button
           variant="outline"
           size="default"
