@@ -57,6 +57,7 @@ const enDict: Record<string, string> = {
   "Пара собрана, ориентация неверна, слот FR": "Pair assembled, wrong orientation, slot FR",
   "Переориентировать пару": "Reorient the pair",
   "Вставить в слот": "Insert into slot",
+  "Вставить": "Insert",
   "Ребро в средине, угол в U, слот FR": "Edge in middle, corner in U, slot FR",
   "Вывести ребро в U": "Bring edge to U",
   "Угол в слоте неверно, ребро в U": "Corner wrong in slot, edge in U",
@@ -83,6 +84,8 @@ const enDict: Record<string, string> = {
   "Переставить ребра против часовой": "Permute edges counterclockwise",
   "Поменять противоположные ребра": "Swap opposite edges",
   "Завершить перестановку слоя": "Finish layer permutation",
+  "Достроить слой": "Finish the layer",
+  "Доработать слой": "Finish the layer",
   "Поменять соседние ребра": "Swap adjacent edges",
   "Достроить финальные позиции": "Finalize positions",
 
