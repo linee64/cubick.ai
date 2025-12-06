@@ -132,9 +132,8 @@ const Index = () => {
           <div className="container mx-auto px-3 md:px-4">
             <div className="grid md:grid-cols-3 gap-6 stagger-enter">
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center">
-                  <img src="/icons/ai.svg" alt={t("ИИ")}
-                       className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                  {t("ИИ")}
                 </div>
                 <h3 className="font-semibold mb-2">{t("ИИ-помощник")}</h3>
                 <p className="text-sm text-muted-foreground">
@@ -143,8 +142,8 @@ const Index = () => {
               </Card>
 
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center">
-                  <img src="/icons/timer.svg" alt={t("Точный таймер")} className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl">
+                  ⏱️
                 </div>
                 <h3 className="font-semibold mb-2">{t("Точный таймер")}</h3>
                 <p className="text-sm text-muted-foreground">
@@ -153,8 +152,8 @@ const Index = () => {
               </Card>
 
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center">
-                  <img src="/icons/methods.svg" alt={t("Два уровня")} className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl">
+                  📚
                 </div>
                 <h3 className="font-semibold mb-2">{t("Два уровня")}</h3>
                 <p className="text-sm text-muted-foreground">
