@@ -1,18 +1,24 @@
 
-## 2025-12-06 15:50 - Enabled Bold Text in AI Responses
+## 2025-12-06 16:05 - Replaced Icons and Fixed Mobile Reload Issue
 
 ### Context
-User requested to "add markdown with bold font so the AI uses it too".
-Previously, the system prompt explicitly instructed the AI to *avoid* bold highlighting.
-The frontend `AICoach.tsx` was already capable of rendering `**bold**` text via `ReactMarkdown` components (`strong` -> `font-bold`), but the AI was suppressing it due to instructions.
+1. User requested to replace old emoji icons (Timer, Methods, AI) on the landing page with new SVG icons (`ai.svg`, `methods.svg`, `timer.svg`).
+2. User reported that on mobile, reloading the page kicks them out (logs them out).
 
 ### Changes
-- **Modified `src/integrations/gemini.ts`**:
-  - Updated `systemPrompt`:
-    - Removed instruction to "avoid intrusive bold highlighting".
-    - Added instruction: "Используй **жирный шрифт** для выделения ключевых терминов, алгоритмов и важных моментов" (Use bold font to highlight key terms, algorithms, and important points).
-    - Updated format description to include "**жирный шрифт** для акцентов".
+- **Modified `src/pages/Index.tsx`**:
+  - Replaced the `div`s containing emojis (`⏱️`, `📚`, `ИИ`) with `img` tags pointing to `/icons/timer.svg`, `/icons/methods.svg`, `/icons/ai.svg`.
+  - Applied `invert brightness-0` classes to ensure icons are visible (white) on the gradient background.
 
-### Impact
-- The AI will now actively use bold text to emphasize key parts of its advice (e.g., algorithm names like **T-Perm**, keywords like **Look-ahead**).
-- The mobile interface (and desktop) will render this using the existing `font-bold` style.
+- **Modified `src/hooks/use-auth.ts`**:
+  - Improved authentication initialization logic to fix the "kick out" issue.
+  - **Old behavior**: Only called `getUser()` (server check). If it failed (e.g., network glitch on mobile) or took too long, the user might be treated as logged out.
+  - **New behavior**:
+    1. Checks `getSession()` (local storage) first and immediately sets the user if found. This prevents "flashing" and provides offline support.
+    2. Then calls `getUser()` to validate the session with the server.
+    3. If `getUser()` fails due to an error (e.g., network) but `getSession()` found a user, the local user session is preserved (fallback).
+    4. This ensures that reloading on a flaky mobile connection doesn't immediately log the user out.
+
+### Technical Details
+- **Icons**: SVG files were confirmed to exist in `public/icons/`.
+- **Auth**: Supabase `getUser` vs `getSession` strategy implemented for robustness.

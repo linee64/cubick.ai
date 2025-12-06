@@ -133,7 +133,7 @@ const Index = () => {
             <div className="grid md:grid-cols-3 gap-6 stagger-enter">
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
-                  {t("ИИ")}
+                  <img src="/icons/ai.svg" alt="AI" className="w-6 h-6 invert brightness-0" />
                 </div>
                 <h3 className="font-semibold mb-2">{t("ИИ-помощник")}</h3>
                 <p className="text-sm text-muted-foreground">
@@ -143,7 +143,7 @@ const Index = () => {
 
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl">
-                  ⏱️
+                  <img src="/icons/timer.svg" alt="Timer" className="w-6 h-6 invert brightness-0" />
                 </div>
                 <h3 className="font-semibold mb-2">{t("Точный таймер")}</h3>
                 <p className="text-sm text-muted-foreground">
@@ -153,7 +153,7 @@ const Index = () => {
 
               <Card className="p-6 md:p-12 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 text-center interactive-card">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center text-white text-2xl">
-                  📚
+                  <img src="/icons/methods.svg" alt="Methods" className="w-6 h-6 invert brightness-0" />
                 </div>
                 <h3 className="font-semibold mb-2">{t("Два уровня")}</h3>
                 <p className="text-sm text-muted-foreground">
