@@ -1,24 +1,20 @@
 
-## 2025-12-06 16:05 - Replaced Icons and Fixed Mobile Reload Issue
+## 2025-12-06 16:10 - Fixed 404 Error on Page Reload
 
 ### Context
-1. User requested to replace old emoji icons (Timer, Methods, AI) on the landing page with new SVG icons (`ai.svg`, `methods.svg`, `timer.svg`).
-2. User reported that on mobile, reloading the page kicks them out (logs them out).
+User reported a "404: NOT_FOUND" error when reloading the page, specifically mentioned during AI chat.
+This is a common issue in Single Page Applications (SPAs) hosted on static file servers (like Vercel, Netlify, or local development servers that don't have fallback configured), where the server tries to find a file named `/ai` instead of serving `index.html` and letting the client-side router handle it.
 
 ### Changes
-- **Modified `src/pages/Index.tsx`**:
-  - Replaced the `div`s containing emojis (`⏱️`, `📚`, `ИИ`) with `img` tags pointing to `/icons/timer.svg`, `/icons/methods.svg`, `/icons/ai.svg`.
-  - Applied `invert brightness-0` classes to ensure icons are visible (white) on the gradient background.
-
-- **Modified `src/hooks/use-auth.ts`**:
-  - Improved authentication initialization logic to fix the "kick out" issue.
-  - **Old behavior**: Only called `getUser()` (server check). If it failed (e.g., network glitch on mobile) or took too long, the user might be treated as logged out.
-  - **New behavior**:
-    1. Checks `getSession()` (local storage) first and immediately sets the user if found. This prevents "flashing" and provides offline support.
-    2. Then calls `getUser()` to validate the session with the server.
-    3. If `getUser()` fails due to an error (e.g., network) but `getSession()` found a user, the local user session is preserved (fallback).
-    4. This ensures that reloading on a flaky mobile connection doesn't immediately log the user out.
+- **Created `vercel.json`**:
+  - Added a rewrite rule to redirect all requests (`/(.*)`) to `/index.html`.
+  - This ensures that when a user reloads a URL like `/ai` or `/timer`, the server returns the main application entry point, allowing React Router to take over and render the correct page.
 
 ### Technical Details
-- **Icons**: SVG files were confirmed to exist in `public/icons/`.
-- **Auth**: Supabase `getUser` vs `getSession` strategy implemented for robustness.
+- The local Vite development server (`npm run dev`) typically handles this automatically via `historyApiFallback`.
+- However, if the user is deploying to Vercel (which seems likely given the project structure or potential future deployment), this file is crucial.
+- If the user is experiencing this locally, it might be due to a specific server configuration or how they are accessing the site (e.g., if they ran `npm run build` and are serving the `dist` folder without a proper SPA server).
+- Since the user is on "windows" and running "npm run dev", the local server *should* work, but adding `vercel.json` prepares for production and is a standard fix for this class of errors in modern web hosting.
+
+### Note
+If the user is seeing this *locally* while running `npm run dev`, it might be a red herring or a specific browser cache issue, but the 404 description strongly suggests a missing server-side fallback.
