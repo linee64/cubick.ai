@@ -250,9 +250,9 @@ export function AICoach({ autoPrompt }: { autoPrompt?: string }) {
           {/* Индикатор режима удалён — упрощённый интерфейс */}
         </div>
       </CardHeader>
-      <CardContent className="space-y-4 flex flex-col">
-        <ScrollArea className="flex-1 min-h-0 pr-4 ios-scroll" ref={scrollRef}>
-          <div className="space-y-4">
+      <CardContent className="space-y-3 md:space-y-4 flex flex-col p-3 md:p-6 h-[calc(100vh-12rem)] md:h-[600px]">
+        <ScrollArea className="flex-1 min-h-0 pr-2 md:pr-4 ios-scroll" ref={scrollRef}>
+          <div className="space-y-3 md:space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-muted-foreground py-8">
                 <Bot className="w-12 h-12 mx-auto mb-4 opacity-50" />
@@ -264,51 +264,51 @@ export function AICoach({ autoPrompt }: { autoPrompt?: string }) {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-3 ${
+                className={`flex gap-2 md:gap-3 ${
                   message.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
                 {message.role === "assistant" && (
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-5 h-5 text-primary" />
+                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <Bot className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                   </div>
                 )}
                 
                 <div
-                  className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                  className={`max-w-[92%] md:max-w-[80%] rounded-lg px-3 py-2 md:px-4 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted"
                   }`}
                 >
                   {message.role === "assistant" ? (
-                    <div className="prose prose-sm md:prose-base max-w-none text-foreground">
+                    <div className="markdown-compact md:prose md:prose-sm max-w-none text-foreground text-sm md:text-base">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
                           p: ({ children }) => (
-                            <p className="mb-3 leading-relaxed whitespace-pre-wrap break-words">{children}</p>
+                            <p className="mb-2 md:mb-3 leading-relaxed whitespace-pre-wrap break-words last:mb-0">{children}</p>
                           ),
                           strong: ({ children }) => (
-                            <span className="font-medium">{children}</span>
+                            <span className="font-bold">{children}</span>
                           ),
                           ul: ({ children }) => (
-                            <ul className="list-disc pl-5 space-y-2">{children}</ul>
+                            <ul className="list-disc pl-4 space-y-1 mb-2 last:mb-0">{children}</ul>
                           ),
                           ol: ({ children }) => (
-                            <ol className="list-decimal pl-5 space-y-2">{children}</ol>
+                            <ol className="list-decimal pl-4 space-y-1 mb-2 last:mb-0">{children}</ol>
                           ),
-                          li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                          li: ({ children }) => <li className="leading-relaxed pl-1">{children}</li>,
                           a: ({ href, children }) => (
-                            <a href={href as string} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                            <a href={href as string} target="_blank" rel="noopener noreferrer" className="text-primary underline decoration-1 underline-offset-2">
                               {children}
                             </a>
                           ),
                           code: ({ children }) => (
-                            <code className="rounded bg-muted px-1 py-0.5 text-sm">{children}</code>
+                            <code className="rounded bg-background/50 px-1 py-0.5 text-xs md:text-sm font-mono border border-border/50">{children}</code>
                           ),
                           pre: ({ children }) => (
-                            <pre className="rounded bg-muted p-3 overflow-auto text-sm">{children}</pre>
+                            <pre className="rounded-lg bg-background/50 p-3 overflow-x-auto text-xs md:text-sm font-mono border border-border/50 my-2">{children}</pre>
                           ),
                         }}
                       >
