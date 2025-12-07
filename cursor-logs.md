@@ -1,20 +1,26 @@
 
-## 2025-12-06 16:10 - Fixed 404 Error on Page Reload
+## 2025-12-07 10:25 - Implemented OLL Diagram (Reverted PLL)
 
 ### Context
-User reported a "404: NOT_FOUND" error when reloading the page, specifically mentioned during AI chat.
-This is a common issue in Single Page Applications (SPAs) hosted on static file servers (like Vercel, Netlify, or local development servers that don't have fallback configured), where the server tries to find a file named `/ai` instead of serving `index.html` and letting the client-side router handle it.
+User corrected the previous request, stating that the diagram should be inserted into `OLL.tsx`, not `PLL.tsx`.
+User provided an image reference for an OLL diagram (3x3 grid with side orientation stickers).
+The request to shorten the AICoach card on desktop remains valid and was already implemented.
 
 ### Changes
-- **Created `vercel.json`**:
-  - Added a rewrite rule to redirect all requests (`/(.*)`) to `/index.html`.
-  - This ensures that when a user reloads a URL like `/ai` or `/timer`, the server returns the main application entry point, allowing React Router to take over and render the correct page.
+- **Reverted `src/pages/PLL.tsx`**:
+  - Restored the original "Schema" text div.
+  - Removed `PLLVisualizer` import and usage.
+  
+- **Deleted `src/components/PLLVisualizer.tsx`**:
+  - Component is no longer needed as the request was for OLL.
 
-### Technical Details
-- The local Vite development server (`npm run dev`) typically handles this automatically via `historyApiFallback`.
-- However, if the user is deploying to Vercel (which seems likely given the project structure or potential future deployment), this file is crucial.
-- If the user is experiencing this locally, it might be due to a specific server configuration or how they are accessing the site (e.g., if they ran `npm run build` and are serving the `dist` folder without a proper SPA server).
-- Since the user is on "windows" and running "npm run dev", the local server *should* work, but adding `vercel.json` prepares for production and is a standard fix for this class of errors in modern web hosting.
+- **Created `src/components/OLLVisualizer.tsx`**:
+  - Implemented an SVG component that renders a 3x3 grid top view with side sticker indicators.
+  - Uses colors yellow (#facc15) and dark (#333333) to match the standard OLL diagram style.
+  - Currently renders a generic "Dot" case (OLL 1) pattern as a template.
 
-### Note
-If the user is seeing this *locally* while running `npm run dev`, it might be a red herring or a specific browser cache issue, but the 404 description strongly suggests a missing server-side fallback.
+- **Modified `src/pages/OLL.tsx`**:
+  - Imported `OLLVisualizer`.
+  - Replaced the static "Schema" div with conditional rendering:
+    - **Mobile**: Shows the original text "Схема".
+    - **Desktop**: Shows the new `OLLVisualizer` component.

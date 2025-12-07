@@ -250,7 +250,7 @@ export function AICoach({ autoPrompt }: { autoPrompt?: string }) {
           {/* Индикатор режима удалён — упрощённый интерфейс */}
         </div>
       </CardHeader>
-      <CardContent className="space-y-3 md:space-y-4 flex flex-col p-3 md:p-6 h-[calc(100vh-12rem)] md:h-[600px]">
+      <CardContent className="space-y-3 md:space-y-4 flex flex-col p-3 md:p-6 h-[calc(100vh-12rem)] md:h-[500px]">
         <ScrollArea className="flex-1 min-h-0 pr-2 md:pr-4 ios-scroll" ref={scrollRef}>
           <div className="space-y-3 md:space-y-4">
             {messages.length === 0 && (
