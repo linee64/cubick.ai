@@ -4,6 +4,7 @@ import PageTransition from "@/components/ui/PageTransition";
 import CFOPNav from "@/components/CFOPNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useI18n } from "@/lib/i18n";
+import { PLLVisualizer } from "@/components/PLLVisualizer";
 
 export default function PLLPage() {
   const { t } = useI18n();
@@ -46,7 +47,9 @@ export default function PLLPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between gap-4">
                       <div className="w-36">
-                        <div className="h-32 rounded-md bg-muted flex items-center justify-center text-xs text-muted-foreground">{t("Схема")}</div>
+                        <div className="h-32 rounded-md bg-muted flex items-center justify-center overflow-hidden">
+                          <PLLVisualizer caseId={c.id} />
+                        </div>
                       </div>
                       <div className="flex-1">
                         <div className="text-lg font-semibold">{c.name}</div>

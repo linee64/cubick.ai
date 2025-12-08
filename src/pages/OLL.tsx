@@ -83,8 +83,7 @@ export default function OLLPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between gap-4">
                       <div className="w-36">
-                        <div className="md:hidden h-32 rounded-md bg-muted flex items-center justify-center text-xs text-muted-foreground">{t("Схема")}</div>
-                        <div className="hidden md:flex h-32 rounded-md bg-muted items-center justify-center overflow-hidden">
+                        <div className="h-32 rounded-md bg-muted flex items-center justify-center overflow-hidden">
                           <OLLVisualizer caseId={c.id} />
                         </div>
                       </div>
