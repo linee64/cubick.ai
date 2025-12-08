@@ -29,7 +29,7 @@ export const PLLVisualizer: React.FC<PLLVisualizerProps> = ({ caseId, className 
   
   return (
     <div className={cn("relative w-full h-full flex items-center justify-center bg-muted/50 p-2", className)}>
-      <svg viewBox="10 10 100 100" className="w-full h-full max-w-[120px] max-h-[120px]">
+      <svg viewBox="12 12 96 96" className="w-full h-full max-w-[120px] max-h-[120px]">
         {/* Main 3x3 Grid on Top Face (All Yellow for PLL) */}
         <g transform="translate(28, 28)">
           {/* Row 1 */}

@@ -19,17 +19,27 @@ export const OLLVisualizer: React.FC<OLLVisualizerProps> = ({ caseId, className 
   const getTopFill = (index: number) => pattern.top[index] === 1 ? yellow : dark;
 
   // Helper to render side stickers
-  // We only render if the side sticker is 1 (Yellow)
+  // We render yellow if 1, and dark (empty) if 0
   const renderSideSticker = (index: number, x: number, y: number, width: number, height: number) => {
-    if (pattern.sides[index] === 1) {
-      return <rect key={`side-${index}`} x={x} y={y} width={width} height={height} rx="1" fill={yellow} />;
-    }
-    return null;
+    const isYellow = pattern.sides[index] === 1;
+    return (
+      <rect 
+        key={`side-${index}`} 
+        x={x} 
+        y={y} 
+        width={width} 
+        height={height} 
+        rx="1" 
+        fill={isYellow ? yellow : dark} 
+        stroke={gray}
+        strokeWidth="1"
+      />
+    );
   };
 
   return (
     <div className={cn("relative w-full h-full flex items-center justify-center bg-muted/50 p-2", className)}>
-      <svg viewBox="10 10 100 100" className="w-full h-full max-w-[120px] max-h-[120px]">
+      <svg viewBox="12 12 96 96" className="w-full h-full max-w-[120px] max-h-[120px]">
         {/* Main 3x3 Grid on Top Face */}
         <g transform="translate(28, 28)">
           {/* Row 1 */}

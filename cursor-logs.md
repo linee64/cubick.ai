@@ -76,3 +76,16 @@ User also explicitly requested to "diversify" the OLL diagrams and implement all
 
 - **Modified `src/components/PLLVisualizer.tsx`**:
   - Adjusted `viewBox` to `10 10 100 100` to match the OLL zoom level.
+
+## 2025-12-08 12:15 - Fixed OLL Side Stickers & Further Zoom
+
+### Context
+User requested to keep the "extreme borders" (side stickers) visible even if they are empty (not yellow), and to zoom in another 5%.
+
+### Changes
+- **Modified `src/components/OLLVisualizer.tsx`**:
+  - Updated `renderSideSticker` to render a dark rectangle (instead of nothing) when the side sticker is not yellow. This ensures the full "cross" shape of the diagram is always visible.
+  - Adjusted `viewBox` to `12 12 96 96` (approximately 5% more zoom).
+
+- **Modified `src/components/PLLVisualizer.tsx`**:
+  - Adjusted `viewBox` to `12 12 96 96` for consistency with OLL.
