@@ -55,27 +55,27 @@ export const getPLLPattern = (id: string): PLLPattern => {
 
   switch (id) {
     // You can customize each case here:
-    case "pll_Aa": return createPattern("BBB RRR GGG OOO", []); 
-    case "pll_Ab": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_E": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_F": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Ga": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Gb": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Gc": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Gd": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_H": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Ja": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Jb": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Na": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Nb": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Ra": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Rb": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_T": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Ua": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Ub": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_V": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Y": return createPattern("BBB RRR GGG OOO", []);
-    case "pll_Z": return createPattern("BBB RRR GGG OOO", []);
+    case "pll_Aa": return createPattern("RGB ORR BBO GOG", []); 
+    case "pll_Ab": return createPattern("OGO GRR BBG ROB", []);
+    case "pll_E": return createPattern("GOB OGR BRG RBO", []);
+    case "pll_F": return createPattern("ORG RGO GOR BBB", []);
+    case "pll_Ga": return createPattern("RBO GGR BOB ORG", []);
+    case "pll_Gb": return createPattern("OBG RRO GOR BGB", []);
+    case "pll_Gc": return createPattern("BRO GOG RBB OGR", []);
+    case "pll_Gd": return createPattern("ROB ORR BGO GBG", []);
+    case "pll_H": return createPattern("GBG ROR BGB ORO", []);
+    case "pll_Ja": return createPattern("OGG ROO GRR BBB", []);
+    case "pll_Jb": return createPattern("OOG RRO GGR BBB", []);
+    case "pll_Na": return createPattern("RRO GGB OOR BBG", []);
+    case "pll_Nb": return createPattern("ROO GBB ORR BGG", []);
+    case "pll_Ra": return createPattern("OBG RGO GRR BOB", []);
+    case "pll_Rb": return createPattern("GOB ORG RGR BBO", []);
+    case "pll_T": return createPattern("OOG RBO GRR BGB", []);
+    case "pll_Ua": return createPattern("BBB ORO GOG RGR", []);
+    case "pll_Ub": return createPattern("BBB OGO GRG ROR", []);
+    case "pll_V": return createPattern("RGO GOB ORR BBG", []);
+    case "pll_Y": return createPattern("BOG RRO GBB OGR", []);
+    case "pll_Z": return createPattern("GOG RBR BRB OGO", []);
     
     default: return defaultPattern;
   }
