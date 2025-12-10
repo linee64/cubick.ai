@@ -10,10 +10,10 @@ export default function PLLPage() {
   const { t } = useI18n();
   
   const pllCases = [
-    { id: "pll_Aa", name: "Aa", algorithm: "x R' U R' D2 R U' R' D2 R2 x'", steps: [t("Переставить углы типа A"), t("Сохранить ребра")] },
-    { id: "pll_Ab", name: "Ab", algorithm: "x' R U' R D2 R' U R D2 R2 x", steps: [t("Переставить углы типа A (зерк.)"), t("Сохранить ребра")] },
-    { id: "pll_E", name: "E", algorithm: "x' R U' R' D R U R' D' x", steps: [t("Меняем диагональные углы"), t("Сохраняем ребра")] },
-    { id: "pll_F", name: "F", algorithm: "R' U2 R' d' R' F' R2 U' R' U R' F R F", steps: [t("Меняем два угла и два ребра"), t("Фиксируем слой")] },
+    { id: "pll_Aa", name: "Aa", algorithm: "(R U R' F') (r U R' U' r' F R2 U' R')", steps: [t("Переставить углы типа A"), t("Сохранить ребра")] },
+    { id: "pll_Ab", name: "Ab", algorithm: "r U' r F2 r' U r F2", steps: [t("Переставить углы типа A (зерк.)"), t("Сохранить ребра")] },
+    { id: "pll_E", name: "E", algorithm: "U2 R2 F (R U R' U') (R U R' U') (R U R' U') F' R2 U2", steps: [t("Меняем диагональные углы"), t("Сохраняем ребра")] },
+    { id: "pll_F", name: "F", algorithm: "(R' U' F') (R U R' U') R' F R2 U' R' U' (R U R' U R)", steps: [t("Меняем два угла и два ребра"), t("Фиксируем слой")] },
     { id: "pll_Ga", name: "Ga", algorithm: "R2 U R' U R' U' R U' R2 (U D) R' U R D'", steps: [t("Ga перестановка"), t("Завершить выравнивание")] },
     { id: "pll_Gb", name: "Gb", algorithm: "R' U' R U D' R2 U R' U R U' R U' R2 D", steps: [t("Gb перестановка"), t("Завершить выравнивание")] },
     { id: "pll_Gc", name: "Gc", algorithm: "R2 U' R U' R U R' U R2 (U D') R U' R' D", steps: [t("Gc перестановка"), t("Завершить выравнивание")] },

@@ -124,17 +124,17 @@ export const getOLLPattern = (id: string): OLLPattern => {
     case 48: return createPattern("000 111 000", "011 000 110 101");
     case 49: return createPattern("000 111 000", "111 000 111 000");
     case 50: return createPattern("000 111 000", "010 100 111 001");
-    case 53: return createPattern("001 111 010", "110 000 101 000");
-    case 54: return createPattern("100 111 010", "011 000 101 000");
+    case 53: return createPattern("010 111 110", "100 100 100 000");
+    case 54: return createPattern("011 111 010", "000 001 001 001");
 
     // I Shapes (51-52, 55-56)
-    case 51: return createPattern("110 110 000", "001 001 000 000");
-    case 52: return createPattern("011 011 000", "100 100 000 000");
-    case 55: return createPattern("000 111 000", "111 000 111 000"); // Line
-    case 56: return createPattern("010 010 010", "101 000 101 000"); // Line
+    case 51: return createPattern("010 111 010", "101 000 101 000");
+    case 52: return createPattern("010 111 010", "001 000 100 101");
+    case 55: return createPattern("011 111 01", "100 000 001 000"); // Line
+    case 56: return createPattern("011 111 110", "000 000 100 001"); // Line
 
     // H (57)
-    case 57: return createPattern("101 111 101", "010 000 010 000"); // H
+    case 57: return createPattern("111 111 010", "000 000 101 000"); // H
 
     default: return { top: [0,0,0, 0,1,0, 0,0,0], sides: [0,1,0, 0,1,0, 0,1,0, 0,1,0] };
   }
