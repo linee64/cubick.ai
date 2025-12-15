@@ -41,7 +41,7 @@ export async function callGemini(
 ): Promise<string> {
   if (!apiKey) throw new Error("VITE_GEMINI_API_KEY отсутствует");
 
-  const primaryUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const primaryUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`;
   const payload = { contents: toGeminiContents(messages) };
 
   const resPrimary = await fetch(primaryUrl, {
@@ -53,18 +53,39 @@ export async function callGemini(
 
   if (!resPrimary.ok) {
     const txt = await resPrimary.text();
-    if (resPrimary.status === 429) {
-      const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // Fallback on Rate Limit (429) or Model Not Found (404)
+    if (resPrimary.status === 429 || resPrimary.status === 404 || resPrimary.status === 503) {
+      console.warn("Gemini 3 Pro unavailable, switching to Gemini 2.0 Flash...");
+      const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
       const resFallback = await fetch(fallbackUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
         signal,
       });
+
       if (!resFallback.ok) {
-        const ft = await resFallback.text();
-        throw new Error(`Превышен лимит запросов (429), фоллбэк не удался: ${ft}`);
+        // If 2.0 Flash also fails, try 2.5 Flash-Lite as a final safety net
+        console.warn("Gemini 2.0 Flash unavailable, switching to Gemini 2.5 Flash-Lite...");
+        const finalUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`;
+        const resFinal = await fetch(finalUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal,
+        });
+
+        if (!resFinal.ok) {
+          const ft = await resFinal.text();
+          // Include status code in error message for debugging, but don't hardcode "429" text if it's not a 429
+          throw new Error(`Gemini fallback failed (${resFinal.status}): ${ft}`);
+        }
+        
+        const dataFinal = await resFinal.json();
+        const partsFinal = dataFinal?.candidates?.[0]?.content?.parts ?? [];
+        return partsFinal.map((p: any) => p.text || "").join("") || "";
       }
+
       const dataFb = await resFallback.json();
       const partsFb = dataFb?.candidates?.[0]?.content?.parts ?? [];
       const textFb = partsFb
