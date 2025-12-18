@@ -4,6 +4,7 @@ import PageTransition from "@/components/ui/PageTransition";
 import CFOPNav from "@/components/CFOPNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useI18n } from "@/lib/i18n";
+import { F2LVisualizer } from "@/components/F2LVisualizer";
 
 export default function F2LPage() {
   const { t } = useI18n();
@@ -21,28 +22,16 @@ export default function F2LPage() {
     { id: "f2l_fl_split", name: t("Пара разделена для FL"), slot: "FL", algorithm: "U' F' U F U R U' R'", steps: [t("Сформировать пару"), t("Вставить через F"), t("Завершить R последовательностью")], pattern: "split-fl" },
     { id: "f2l_br_reorient", name: t("Переориентация пары для BR"), slot: "BR", algorithm: "L' U' L U L' U L", steps: [t("Переориентировать"), t("Вставить")], pattern: "reorient-br" },
     { id: "f2l_bl_extract_reinsert", name: t("Извлечь и вставить пару для BL"), slot: "BL", algorithm: "L U L' U' U' L U L'", steps: [t("Извлечь пару"), t("Сформировать"), t("Вставить")], pattern: "extract-bl" },
+    // Placeholders for remaining F2L cases (Total 41)
+    ...Array.from({ length: 29 }, (_, i) => ({
+      id: `f2l_case_${i + 13}`,
+      name: t(`F2L Case ${i + 13}`),
+      slot: "FR",
+      algorithm: "R U R'",
+      steps: [t("Описание шагов...")],
+      pattern: `case_${i + 13}`
+    })),
   ];
-
-  const F2LDiagram = ({ slot }: { slot: string }) => (
-    <svg viewBox="0 0 120 100" className="w-full h-32">
-      <rect x="0" y="0" width="120" height="100" rx="8" className="fill-muted" />
-      <g transform="translate(12,12)">
-        {[0,1,2].map((r) => (
-          [0,1,2].map((c) => (
-            <rect key={`u-${r}-${c}`} x={c*24} y={r*24} width="22" height="22" rx="3" className="fill-background stroke-muted" />
-          ))
-        ))}
-        <rect x="48" y="48" width="22" height="22" rx="3" className="fill-primary/20" />
-        <circle cx="24" cy="24" r="8" className="fill-accent" />
-        <rect x="24" y="48" width="16" height="6" className="fill-accent" />
-      </g>
-      <g transform="translate(80,50)">
-        <path d="M0 0 L20 0" className="stroke-primary" strokeWidth="2" />
-        <path d="M16 -4 L20 0 L16 4" className="fill-primary" />
-      </g>
-      <text x="10" y="95" className="fill-muted-foreground text-[10px]">{slot}</text>
-    </svg>
-  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -57,7 +46,10 @@ export default function F2LPage() {
                 <Card key={c.id} className="p-4 md:p-6 bg-gradient-to-br from-card to-muted/20 shadow-xl border-2 interactive-card">
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between gap-4">
-                      <div className="w-36"><F2LDiagram slot={c.slot} /></div>
+                      <div className="w-36 flex flex-col items-center">
+                        <F2LVisualizer caseId={c.id} className="w-full h-32" />
+                        <span className="text-xs text-muted-foreground mt-2">{c.slot}</span>
+                      </div>
                       <div className="flex-1">
                         <div className="text-lg font-semibold">{c.name}</div>
                         <div className="mt-1 text-sm text-muted-foreground">{t("План действий")}</div>
