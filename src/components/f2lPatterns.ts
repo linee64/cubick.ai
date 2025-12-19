@@ -17,7 +17,7 @@ export type F2LPattern = {
 // Default: Yellow center, Blue Left, Red Right (as requested)
 const defaultPattern: F2LPattern = {
   u: [x, x, x, x, y, x, x, x, x],
-  l: [b, b, b, b, b, b, b, b, b],
+  l: [x, b, b, b, b, x, b, b, x],
   r: [r, r, r, r, r, r, r, r, r],
 };
 

@@ -21,6 +21,7 @@ import PLLPage from "./pages/PLL";
 import NotFound from "./pages/NotFound";
 import TimerFullscreen from "./pages/TimerFullscreen";
 import AICoachPage from "./pages/AICoachPage";
+import FeedbackList from "./pages/FeedbackList";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,7 @@ const App = () => {
                 <Route path="/oll" element={<OLLPage />} />
                 <Route path="/pll" element={<PLLPage />} />
                 <Route path="/ai" element={<AICoachPage />} />
+                <Route path="/feedbacks" element={<FeedbackList />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

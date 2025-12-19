@@ -10,15 +10,18 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { BookOpen, Zap } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { getSupabase } from "@/integrations/client";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@supabase/supabase-js";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+);
 
 const Index = () => {
-  const { t, language } = useI18n();
-  const { user } = useAuth();
-  const [feedback, setFeedback] = useState("");
+  const { t } = useI18n();
+  const [reviewText, setReviewText] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const taRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -31,36 +34,39 @@ const Index = () => {
 
   useEffect(() => {
     adjustTextareaHeight();
-  }, [feedback]);
+  }, [reviewText]);
 
-  const submitFeedback = async () => {
-    const text = feedback.trim();
+  async function sendReview() {
+    const text = reviewText.trim();
+
     if (!text) {
-      toast({ title: t("Пустой отзыв"), description: t("Пожалуйста, напишите ваш отзыв") });
-      return;
+        toast({ title: t("Пустой отзыв"), description: t("Пожалуйста, напишите ваш отзыв") });
+        return;
     }
-    if (text.length > 2000) {
-      toast({ title: t("Слишком длинный отзыв"), description: t("Сократите текст до 2000 символов") });
-      return;
-    }
+
     setSubmitting(true);
-    try {
-      const supabase = getSupabase() as unknown as SupabaseClient;
-      const { error } = await supabase.from("feedback").insert({
-        content: text,
-        user_id: user?.id ?? null,
-        lang: language,
-      });
-      if (error) throw error;
-      setFeedback("");
-      toast({ title: t("Отзыв отправлен"), description: t("Спасибо за ваш отзыв!") });
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      toast({ title: t("Ошибка отправки"), description: msg });
-    } finally {
-      setSubmitting(false);
+
+    const { error } = await supabase
+      .from('reviews')
+      .insert([
+        {
+          text,
+          page: 'main',
+          user_name: 'Аноним'
+        }
+      ]);
+
+    setSubmitting(false);
+
+    if (error) {
+      console.error(error);
+      alert('Ошибка отправки: ' + (error.message || JSON.stringify(error)));
+    } else {
+      alert('Отзыв отправлен');
+      setReviewText('');
     }
-  };
+  }
+
   return (
     <div className="ios-vh flex flex-col">
       <Header />
@@ -173,18 +179,19 @@ const Index = () => {
               <p className="text-base md:text-xl dark:text-white/85 text-muted-foreground max-w-2xl mx-auto mb-8">
                 {t("Мы очень уважаем мнение наших юзеров и верим, что они помогут сделать сайт лучше")}
               </p>
+              
               <Textarea
                 ref={taRef}
-                value={feedback}
+                value={reviewText}
                 onChange={(e) => {
-                  setFeedback(e.target.value);
+                  setReviewText(e.target.value);
                   adjustTextareaHeight();
                 }}
                 placeholder={t("Напишите отзыв...")}
                 className="mx-auto w-full max-w-3xl text-lg dark:text-white text-foreground placeholder:text-center placeholder:dark:text-white/70 placeholder:text-foreground/60 resize-none overflow-hidden bg-transparent border-2 border-border rounded-xl p-6"
               />
               <div className="w-full max-w-3xl mx-auto flex justify-start mt-6">
-                <Button size="lg" onClick={submitFeedback} disabled={submitting} className="interactive-button opacity-90">
+                <Button size="lg" onClick={sendReview} disabled={submitting} className="interactive-button opacity-90">
                   {t("Отправить отзыв")}
                 </Button>
               </div>
