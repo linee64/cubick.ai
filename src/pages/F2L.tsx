@@ -10,18 +10,18 @@ export default function F2LPage() {
   const { t } = useI18n();
 
   const f2lCases = [
-    { id: "f2l_fr_basic_insert", name: t("Пара собрана в U, вставка в FR"), slot: "FR", algorithm: "U R U' R'", steps: [t("Выровнять пару над целевым слотом"), t("Вставить базовым алгоритмом")], pattern: "pair-ready" },
-    { id: "f2l_fr_split_white_up", name: t("Пара разделена, белая наверх, слот FR"), slot: "FR", algorithm: "U R U' R' U' F' U F", steps: [t("Сформировать пару"), t("Вставить через F перемещение")], pattern: "split-white-up" },
-    { id: "f2l_fr_split_white_front", name: t("Пара разделена, белая спереди, слот FR"), slot: "FR", algorithm: "U' R U R' F' U' F", steps: [t("Подвести угол"), t("Сформировать пару"), t("Вставить через F")], pattern: "split-white-front" },
-    { id: "f2l_fr_misoriented_pair", name: t("Пара собрана, ориентация неверна, слот FR"), slot: "FR", algorithm: "R U2 R' U' R U R'", steps: [t("Переориентировать пару"), t("Вставить в слот")], pattern: "pair-misorient" },
-    { id: "f2l_fr_edge_in_middle", name: t("Ребро в средине, угол в U, слот FR"), slot: "FR", algorithm: "U R U' R' U' F' U F", steps: [t("Вывести ребро в U"), t("Сформировать пару"), t("Вставить")], pattern: "edge-middle" },
-    { id: "f2l_fr_corner_wrong_in_slot", name: t("Угол в слоте неверно, ребро в U"), slot: "FR", algorithm: "R U R' U' U R U' R'", steps: [t("Вынуть угол"), t("Сформировать пару"), t("Вставить")], pattern: "corner-wrong-slot" },
-    { id: "f2l_fr_edge_in_slot_corner_u", name: t("Ребро в слоте, угол в U"), slot: "FR", algorithm: "R U' R' U U R U' R'", steps: [t("Вынуть ребро"), t("Сформировать пару"), t("Вставить")], pattern: "edge-in-slot" },
-    { id: "f2l_fr_pair_over_wrong_slot", name: t("Пара собрана над другим слотом"), slot: "FR", algorithm: "U R U' R'", steps: [t("Переместить над целевым слотом"), t("Вставить базовым алгоритмом")], pattern: "pair-over-wrong" },
-    { id: "f2l_fl_basic_insert", name: t("Пара собрана в U, вставка в FL"), slot: "FL", algorithm: "U' F' U F", steps: [t("Выровнять над FL"), t("Вставить базовым зеркальным")], pattern: "pair-ready-fl" },
-    { id: "f2l_fl_split", name: t("Пара разделена для FL"), slot: "FL", algorithm: "U' F' U F U R U' R'", steps: [t("Сформировать пару"), t("Вставить через F"), t("Завершить R последовательностью")], pattern: "split-fl" },
-    { id: "f2l_br_reorient", name: t("Переориентация пары для BR"), slot: "BR", algorithm: "L' U' L U L' U L", steps: [t("Переориентировать"), t("Вставить")], pattern: "reorient-br" },
-    { id: "f2l_bl_extract_reinsert", name: t("Извлечь и вставить пару для BL"), slot: "BL", algorithm: "L U L' U' U' L U L'", steps: [t("Извлечь пару"), t("Сформировать"), t("Вставить")], pattern: "extract-bl" },
+    { id: "f2l_fr_basic_insert", name: t("F2L scheme 1"), slot: "FR", algorithm: "U R U' R'", steps: [t("Выровнять пару над целевым слотом"), t("Вставить базовым алгоритмом")], pattern: "pair-ready" },
+    { id: "f2l_fr_split_white_up", name: t("F2L scheme 2"), slot: "FR", algorithm: "U R U' R' U' F' U F", steps: [t("Сформировать пару"), t("Вставить через F перемещение")], pattern: "split-white-up" },
+    { id: "f2l_fr_split_white_front", name: t("F2L scheme 3"), slot: "FR", algorithm: "U' R U R' F' U' F", steps: [t("Подвести угол"), t("Сформировать пару"), t("Вставить через F")], pattern: "split-white-front" },
+    { id: "f2l_fr_misoriented_pair", name: t("F2L scheme 4"), slot: "FR", algorithm: "R U2 R' U' R U R'", steps: [t("Переориентировать пару"), t("Вставить в слот")], pattern: "pair-misorient" },
+    { id: "f2l_fr_edge_in_middle", name: t("F2L scheme 5"), slot: "FR", algorithm: "U R U' R' U' F' U F", steps: [t("Вывести ребро в U"), t("Сформировать пару"), t("Вставить")], pattern: "edge-middle" },
+    { id: "f2l_fr_corner_wrong_in_slot", name: t("F2L scheme 6"), slot: "FR", algorithm: "R U R' U' U R U' R'", steps: [t("Вынуть угол"), t("Сформировать пару"), t("Вставить")], pattern: "corner-wrong-slot" },
+    { id: "f2l_fr_edge_in_slot_corner_u", name: t("F2L scheme 7"), slot: "FR", algorithm: "R U' R' U U R U' R'", steps: [t("Вынуть ребро"), t("Сформировать пару"), t("Вставить")], pattern: "edge-in-slot" },
+    { id: "f2l_fr_pair_over_wrong_slot", name: t("F2L scheme 8"), slot: "FR", algorithm: "U R U' R'", steps: [t("Переместить над целевым слотом"), t("Вставить базовым алгоритмом")], pattern: "pair-over-wrong" },
+    { id: "f2l_fl_basic_insert", name: t("F2L scheme 9"), slot: "FL", algorithm: "U' F' U F", steps: [t("Выровнять над FL"), t("Вставить базовым зеркальным")], pattern: "pair-ready-fl" },
+    { id: "f2l_fl_split", name: t("F2L scheme 10"), slot: "FL", algorithm: "U' F' U F U R U' R'", steps: [t("Сформировать пару"), t("Вставить через F"), t("Завершить R последовательностью")], pattern: "split-fl" },
+    { id: "f2l_br_reorient", name: t("F2L scheme 11"), slot: "BR", algorithm: "L' U' L U L' U L", steps: [t("Переориентировать"), t("Вставить")], pattern: "reorient-br" },
+    { id: "f2l_bl_extract_reinsert", name: t("F2L scheme 12"), slot: "BL", algorithm: "L U L' U' U' L U L'", steps: [t("Извлечь пару"), t("Сформировать"), t("Вставить")], pattern: "extract-bl" },
     // Placeholders for remaining F2L cases (Total 41)
     ...Array.from({ length: 29 }, (_, i) => ({
       id: `f2l_case_${i + 13}`,
