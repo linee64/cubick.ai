@@ -399,6 +399,26 @@ const enDict: Record<string, string> = {
   "V перестановка": "V permutation",
   "Y углы + ребра": "Y corners + edges",
   "Сдвиг соседних ребер": "Shift adjacent edges",
+  "Синия сторона смотрит на нас": "Blue side facing us",
+  "Синия сторона справа от нас": "Blue side on the right",
+  "Синия сторона cзади  нас": "Blue side behind us",
+  "Вставить алгоритмом": "Insert with algorithm",
+
+  // PLL Steps
+  "Выполнить Ab-Perm": "Execute Ab-Perm",
+  "Выполнить 2 раза этот алгоритм": "Execute this algorithm twice",
+  "Выполнить Aa-Perm": "Execute Aa-Perm",
+  "Выполнить этот алгоритм 1 раз": "Execute this algorithm once",
+  "Выполнить Gb-Perm": "Execute Gb-Perm",
+  "Выполнить Ga-Perm": "Execute Ga-Perm",
+  "Выполнить Gd-Perm": "Execute Gd-Perm",
+  "Выполнить Gc-Perm": "Execute Gc-Perm",
+  "Выполнить данный алгоритм 1 раз": "Execute this algorithm once",
+  "Выполнить данный алгоритм еще раз": "Execute this algorithm again",
+  "Выполнить Ub-Perm": "Execute Ub-Perm",
+  "Выполнить данный алгоритм 2 раза": "Execute this algorithm twice",
+  "Выполнить Ua-Perm": "Execute Ua-Perm",
+  "Как создать": "How to create",
 };
 
 function detectInitialLanguage(): Lang {
