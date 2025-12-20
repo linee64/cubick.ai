@@ -267,6 +267,13 @@ const enDict: Record<string, string> = {
   "Вернуться на главную": "Return to Home",
   
   // AI Coach (AICoach)
+  "Сегодня": "Today",
+  "Вчера": "Yesterday",
+  "История чатов": "Chat History",
+  "Новый чат": "New Chat",
+  "AI Тренер": "AI Coach",
+  "Привет! Я AI тренер по сборке кубика Рубика.": "Hi! I'm an AI Rubik's Cube coach.",
+  "Задай мне вопрос или попроси совет!": "Ask me a question or ask for advice!",
   "нет данных": "no data",
   "Ваши результаты": "Your results",
   "сборок": "solves",
