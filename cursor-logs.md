@@ -1,9 +1,11 @@
-## 2025-12-20 13:30 - Fix Syntax Error in i18n
+## 2025-12-20 13:40 - Update Global Font
 
 ### Context
-User reported a `vite-error-overlay`. Found a syntax error in `src/lib/i18n.tsx` where the `enDict` object was closed prematurely, causing subsequent properties to be outside the object.
+User requested to add a suitable font to make the site look less "naked" and more attractive, especially on mobile.
 
 ### Changes
-- **Updated `src/lib/i18n.tsx`**:
-  - Removed the premature closing brace `};` and ensured correct comma separation for the new motivational quotes keys.
-  - Verified build passes successfully.
+- **Updated `src/index.css`**:
+  - Added `Montserrat` to Google Fonts import.
+  - Set `font-family: 'Montserrat', sans-serif;` on `body`.
+- **Updated `tailwind.config.ts`**:
+  - Extended `fontFamily` to use `Montserrat` as the default `sans` font.

@@ -141,7 +141,7 @@ const Profile = () => {
                         <div className="text-sm text-muted-foreground">{t("Лучшее время")}</div>
                     </Card>
                 </DialogTrigger>
-                <DialogContent className="max-w-md h-[80vh] flex flex-col p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-xl border-primary/20">
+                <DialogContent className="max-w-sm h-[50vh] flex flex-col p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-xl border-primary/20">
                     <DialogHeader className="p-4 border-b border-border/50 bg-muted/30">
                         <DialogTitle className="flex items-center gap-2 text-xl">
                             <Clock className="h-5 w-5 text-primary" />
