@@ -103,4 +103,33 @@ export function computeStats(solves: Solve[]) {
   return { count, bestMs, avgMs };
 }
 
+export function calculateAoN(solves: Solve[], n: number): number | null {
+  if (solves.length < n) return null;
+  
+  // Take the last n solves (assuming solves are sorted by date ascending, or we need to sort them)
+  // The 'solves' passed here should be the relevant slice. 
+  // Standard practice: if we pass all solves, we take the LAST n.
+  // But caller might want specific window. Let's assume caller passes the window or we take last n.
+  // Let's standardise: take LAST n solves from the provided array.
+  
+  const lastN = solves.slice(-n);
+  const times = lastN.map(s => s.timeMs).sort((a, b) => a - b);
+  
+  // Remove best and worst
+  // For Ao5: remove 1 best, 1 worst (indices 0 and n-1)
+  // For Ao12: remove 1 best, 1 worst (indices 0 and n-1)
+  // Standard WCA regulation:
+  // "Trimmed Average": remove top 5% and bottom 5%?
+  // Ao5: remove best 1, worst 1. (3 remaining)
+  // Ao12: remove best 1, worst 1. (10 remaining)
+  
+  // WCA Regs:
+  // 9f8) For "Average of 5", the best and worst results are removed, and the arithmetic mean of the remaining 3 results is counted.
+  // 9f9) For "Average of 12", the best and worst results are removed, and the arithmetic mean of the remaining 10 results is counted.
+  
+  const trimmed = times.slice(1, -1);
+  const sum = trimmed.reduce((a, b) => a + b, 0);
+  return Math.round(sum / trimmed.length);
+}
+
 export type { Solve };

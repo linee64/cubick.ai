@@ -1,8 +1,9 @@
-## 2025-12-20 13:05 - Fix Missing Import
+## 2025-12-20 13:30 - Fix Syntax Error in i18n
 
 ### Context
-User encountered a "useMemo is not defined" error after the previous update.
+User reported a `vite-error-overlay`. Found a syntax error in `src/lib/i18n.tsx` where the `enDict` object was closed prematurely, causing subsequent properties to be outside the object.
 
 ### Changes
-- **Updated `src/components/AICoach.tsx`**:
-  - Added `useMemo` to the React imports.
+- **Updated `src/lib/i18n.tsx`**:
+  - Removed the premature closing brace `};` and ensured correct comma separation for the new motivational quotes keys.
+  - Verified build passes successfully.
